@@ -1,31 +1,27 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
-import ActivityDetails from '../details/ActivityDetails';
-import ActivityForm from '../form/ActivityForm';
 import ActivityList from './ActivityList';
 import ActivityStore from '../../../app/stores/activityStore';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 
-
-const ActivityDashboard: React.FC= () => {
+const ActivityDashboard: React.FC = () => {
   const activityStore = useContext(ActivityStore);
-  const {editMode, selectedActivity} = activityStore;
+
+  useEffect(() => {
+    activityStore.loadActivities();
+  }, [activityStore]);
+
+  if (activityStore.loadingInitial)
+    return <LoadingComponent content='Loading Activities...' />;
+
   return (
     <Grid>
       <Grid.Column width={10}>
-        <ActivityList/>
+        <ActivityList />
       </Grid.Column>
       <Grid.Column width={6}>
-        {selectedActivity && !editMode && (
-          <ActivityDetails/>
-        )}
-        {editMode && (
-          <ActivityForm
-            key={(selectedActivity && selectedActivity.id) || 0}
-            activity={selectedActivity!}
-          />
-          //   Although I didnt really need exclamation
-        )}
+        <h2>Activity Filters Go Here</h2>
       </Grid.Column>
     </Grid>
   );
