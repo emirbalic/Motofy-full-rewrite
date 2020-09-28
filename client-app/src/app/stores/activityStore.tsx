@@ -47,8 +47,8 @@ class ActivityStore {
     } catch (error) {
       runInAction('load activities error', () => {
         this.loadingInitial = false;
-        console.log(error);
       });
+      console.log(error);
     }
   };
 
@@ -81,8 +81,8 @@ class ActivityStore {
       } catch (error) {
         runInAction('error get activity', () => {
           this.loadingInitial = false;
-          console.log(error);
         });
+        console.log(error);
       }
     }
   };

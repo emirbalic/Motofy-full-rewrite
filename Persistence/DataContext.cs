@@ -11,6 +11,8 @@ namespace Persistence
 
         public DbSet<Value> Values { get; set; }
         public DbSet<Activity> Activities {get; set; }
+        public DbSet<Brand> Brands {get; set; }
+        public DbSet<Motofy> Motofies {get; set; }
 
         protected override void OnModelCreating (ModelBuilder builder) 
         {

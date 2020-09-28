@@ -6,13 +6,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Activities
+namespace Application.Brands
 {
     public class List
     {
-        public class Query : IRequest<List<Activity>> { }
+        public class Query : IRequest<List<Brand>> { }
 
-        public class Handler : IRequestHandler<Query, List<Activity>>
+        public class Handler : IRequestHandler<Query, List<Brand>>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -20,13 +20,13 @@ namespace Application.Activities
                 _context = context;
             }
 
-            public async Task<List<Activity>> Handle(Query request, CancellationToken cancellationToken)
-            {
-                var activities = await _context.Activities.ToListAsync();
-
-                return activities;
-            }
             
+            public async Task<List<Brand>> Handle(Query request, CancellationToken cancellationToken)
+            {
+                var brands = await _context.Brands.ToListAsync();
+                return brands;
+            }
         }
+
     }
 }

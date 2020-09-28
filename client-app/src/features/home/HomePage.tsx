@@ -13,11 +13,11 @@ const HomePage = () => {
             alt='logo'
             style={{ marginBottom: 12 }}
           />
-            MOTOFY
+            MY MOTOFY
         </Header>
-        <Header as='h2' inverted content='Welcome to Motofy' />
+        <Header as='h2' inverted content='Welcome to My Motofy' />
         <Button as={Link} to='/activities' size='huge' inverted>
-          Take me to the goodies!
+          Take me there!
         </Button>
       </Container>
     </Segment>
