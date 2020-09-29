@@ -10,18 +10,19 @@ axios.interceptors.response.use(undefined, error => {
     toast.error('Network error - API not responsive')
   }
   const {status, data, config} = error.response;
-  // if(status === 404) {
-  //   history.push('/notfound')
-  // }
-  // if(status === 400 && config.method === 'get' && data.errors.hasOwnProperty('id')) {
-  //   history.push('/notfound')
-  // }
-  if((status === 404) || (status === 400 && config.method === 'get' && data.errors.hasOwnProperty('id'))) {
+  if(status === 404) {
     history.push('/notfound')
   }
+  if(status === 400 && config.method === 'get' && data.errors.hasOwnProperty('id')) {
+    history.push('/notfound')
+  }
+  // if((status === 404) || (status === 400 && config.method === 'get' && data.errors.hasOwnProperty('id'))) {
+  //   history.push('/notfound')
+  // }
   if(status === 500) {
     toast.error('Server error - check the terminal for more info!')
   }
+  throw error;
   // console.log(error.response);
 })
 
