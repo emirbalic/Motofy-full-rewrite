@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Application.Brands;
 using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -20,6 +21,7 @@ namespace API.Controllers
         // }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<List<Brand>>> List()
         {
             return await Mediator.Send(new List.Query());

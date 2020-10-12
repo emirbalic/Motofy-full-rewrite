@@ -60,6 +60,7 @@ namespace API
             // services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddMediatR(typeof(Application.Activities.List.Handler).Assembly);
             services.AddMediatR(typeof(Application.Brands.List.Handler).Assembly);
+            // services.AddMediatR(typeof(Application.Motofies.List.Handler).Assembly);
 
             var builder = services.AddIdentityCore<AppUser>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);

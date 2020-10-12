@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { Container } from 'semantic-ui-react'; //Header, Icon,
 import NavBar from '../../features/nav/NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
@@ -19,10 +19,30 @@ import MerchantDashboard from '../../features/shop/dashboard/MerchantDashboard';
 import MerchantDetails from '../../features/shop/details/MerchantDetails';
 import NotFound from './NotFound';
 import {ToastContainer} from 'react-toastify';
+import LoginForm from '../../features/user/LoginForm';
+import { RootStoreContext } from '../stores/rootStore';
+import LoadingComponent from './LoadingComponent';
+import ModalContainer from '../common/modals/ModalContainer';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
+
+  const rootStore = useContext(RootStoreContext);
+  const {setAppLoaded, token, appLoaded} = rootStore.commonStore;
+  const {getUser} = rootStore.userStore;
+
+  useEffect (()=> {
+    if (token){
+      
+      getUser().finally(() => setAppLoaded());
+    } else {
+      setAppLoaded();
+    }
+  }, [getUser, setAppLoaded, token])
+
+  if(!appLoaded) return <LoadingComponent content={'Loading app...'}/>
   return (
     <Fragment>
+      <ModalContainer/>
       <ToastContainer position='top-right'/>
       <Route exact path='/' component={HomePage} />
       <Route
@@ -47,6 +67,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <Route path='/mechanics/:id' component={MechanicsPage} />
                 <Route path='/merchant' component={MerchantDashboard} />
                 <Route path='/merchant/:id' component={MerchantDetails} />
+                <Route path='/login' component={LoginForm} />
                 <Route component={NotFound} />
               </Switch>
             </Container>

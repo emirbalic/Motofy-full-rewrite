@@ -145,35 +145,43 @@ namespace Persistence
                 {
                     new Brand
                     {
+                        Id = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
                         Name = "Ducati",
                         DateOfEstablishment = DateTime.Now.AddYears(-94),//AddMonths(-200),
                         LogoUrl = "https://unsplash.com/photos/s0QMav76pmQ",
                         LandOfOrigin = "Italy",
                         CityOfOrigin = "Bologna",
+                        // Motofies = null
                     },
                     new Brand
                     {
+                        Id = Guid.Parse("a585178f-1252-413a-939f-b8640e93a940"),
                         Name = "Honda",
                         DateOfEstablishment = DateTime.Now.AddYears(-72),
                         LogoUrl = "https://unsplash.com/photos/5CchtuTTFs8",
                         LandOfOrigin = "Japan",
                         CityOfOrigin = "Hamamatsu, Shizuoka",
+                        // Motofies = null
                     },
                     new Brand
                     {
+                        Id = Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31"),
                         Name = "BMW",
                         DateOfEstablishment = DateTime.Now.AddYears(-104),
                         LogoUrl = "https://unsplash.com/photos/WuRsjF4iZK0",
                         LandOfOrigin = "Germany",
                         CityOfOrigin = "Munchen",
+                        // Motofies = null
                     },
                     new Brand
                     {
+                        Id = Guid.Parse("43d5a027-67e2-42ac-b210-6c7b8d1fc591"),
                         Name = "Harley-Davidson",
                         DateOfEstablishment = DateTime.Now.AddYears(-117),
                         LogoUrl = "https://unsplash.com/photos/YRGsG4oiNIg",
                         LandOfOrigin = "USA",
                         CityOfOrigin = "Milwaukee, Wisconsin",
+                        // Motofies = null
                     },
                  
                 };
@@ -190,7 +198,7 @@ namespace Persistence
                     {                       
                         Name = "Lillie",
                         Model = "620 Dark",
-                        BrandId = Guid.Parse("C5B26CB7-C307-4D02-8CD0-D4FB76F2B21A"),
+                        BrandId = Guid.Parse("1c8326c8-5843-48e9-aa3b-16496e1ca897"),
                         CubicCentimeters = 620d,
                         PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1542747581/htzdagawfprqsmbwkb5a.jpg",
                         Description = "The often forgotten about Multistrada 620 is an absolutely brilliant bike for those looking for a practical do-it-all that has a bit of Italian charm without too many of the associated hassles.",
@@ -205,7 +213,7 @@ namespace Persistence
                     {
                         Name = "King",
                         Model = "Sportster",
-                        BrandId = Guid.Parse("10EF9602-4FFE-4C12-A700-B5A1FDAA5A5A"),
+                        BrandId = Guid.Parse("43d5a027-67e2-42ac-b210-6c7b8d1fc591"),
                         CubicCentimeters = 700d,
                         PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1542881277/hr1axmxfrz6hnnjzmqdl.jpg",
                         Description = "Harley-Davidson Sportster cusom bikes - bobbers, choppers and cafe racers. We do NOT own the video materials and all credits belong to respectful owners. In case of copyright issues, please contact us immediately for further credits or clip delete.",
@@ -221,7 +229,7 @@ namespace Persistence
                     {
                         Name = "Fly",
                         Model = "Hornet",
-                        BrandId = Guid.Parse("A9A087E3-CC75-4975-9D2C-7431C18F4ED5"),
+                        BrandId = Guid.Parse("a585178f-1252-413a-939f-b8640e93a940"),
                         CubicCentimeters = 700d,
                         PhotoUrl = "https://res.cloudinary.com/motofy/image/upload/v1543859124/qwg8b9xd4z1h9nzjvuzi.jpg",
                         Description = "Honda CB Hornet 160R is powered by the same engine that used to serve Honda CB Unicorn. It houses a 162.71cc, single-cylinder, air-cooled 4-stroke SI engine with Honda Eco Technology (HET) that is mated to 5-speed gearbox.",
@@ -237,7 +245,7 @@ namespace Persistence
                     {
                         Name = "Tripp",
                         Model = "R 1200GS LC Adventure",
-                        BrandId = Guid.Parse("DE1EAB9C-7CDF-4C54-A099-5ACBED9B6F3F"),
+                        BrandId = Guid.Parse("e22940da-0bc9-4f66-9875-504f47335f31"),
                         CubicCentimeters = 1200d,
                         PhotoUrl = "https://www.motorcyclespecs.co.za/Gallery%20B/BMW%20R1200GS%20Adventure%2014%20%203.jpg",
                         Description = "The BMW R1200GS is one of the best selling motorcycles of all time. And yet, as I prepared to make a purchase of a 2018 lowered rallye model, I found a surprising dearth of meaningful answers to my questions and concerns.",

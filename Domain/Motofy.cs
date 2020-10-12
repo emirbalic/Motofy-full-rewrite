@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace Domain
 {
@@ -8,12 +7,14 @@ namespace Domain
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Model { get; set; }
+        public Brand Brand { get; set; }
         public Guid BrandId { get; set; }
+       
         public double CubicCentimeters { get; set; }
         public string PhotoUrl {get; set;}
 
-        // da moracu nekad i ovo dodati
-        // public int OwnerId { get; set; }
+        // da moracu nekad i ovo dodati a to je AppUserId
+        // public int OwnerId { get; set; } 
 
         // todo: see the bands for photo
         // public ICollection<Photo> Photos { get; set; }
@@ -26,5 +27,6 @@ namespace Domain
         public double? EstimatedValue { get; set; }
         public double? NumberOfKilometers { get; set; }
 
+        // public int BrandId { get; set; }
     }
 }
