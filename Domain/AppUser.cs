@@ -7,6 +7,7 @@ namespace Domain
     {
         public string DisplayName { get; set; }
         public string Bio { get; set; }
+        public virtual  ICollection<UserActivity> UserActivities { get; set; } //virtual??
         // public ICollection<Motofy> Motofies { get; set; }
     }
 }

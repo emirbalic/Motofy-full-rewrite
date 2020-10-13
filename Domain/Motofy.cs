@@ -7,14 +7,14 @@ namespace Domain
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Model { get; set; }
-        public Brand Brand { get; set; }
+        public virtual Brand Brand { get; set; }
         public Guid BrandId { get; set; }
        
         public double CubicCentimeters { get; set; }
         public string PhotoUrl {get; set;}
 
         // da moracu nekad i ovo dodati a to je AppUserId
-        // public int OwnerId { get; set; } 
+        // public string AppUserId { get; set; } 
 
         // todo: see the bands for photo
         // public ICollection<Photo> Photos { get; set; }
