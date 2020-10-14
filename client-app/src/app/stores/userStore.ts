@@ -38,6 +38,7 @@ export default class UserStore {
         } catch (error) {
             console.log(error);
         }
+        // console.log(this.user?.userName);
     }
     @action logout = () => {
         this.rootStore.commonStore.setToken(null);
