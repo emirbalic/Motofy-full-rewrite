@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201013140523_UserActivityAdded")]
-    partial class UserActivityAdded
+    [Migration("20201015093002_PhotoEntityAdded")]
+    partial class PhotoEntityAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -117,79 +117,25 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Domain.Brand", b =>
+            modelBuilder.Entity("Domain.Photo", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CityOfOrigin")
+                    b.Property<string>("AppUserId")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DateOfEstablishment")
-                        .HasColumnType("TEXT");
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("LandOfOrigin")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LogoUrl")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Url")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
-                });
+                    b.HasIndex("AppUserId");
 
-            modelBuilder.Entity("Domain.Motofy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("BrandId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("City")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("CubicCentimeters")
-                        .HasColumnType("REAL");
-
-                    b.Property<DateTime>("DatePublished")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double?>("EstimatedValue")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("Model")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double?>("NumberOfKilometers")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("PhotoUrl")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double?>("PricePaid")
-                        .HasColumnType("REAL");
-
-                    b.Property<DateTime>("YearOfProduction")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
-
-                    b.ToTable("Motofies");
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>
@@ -377,13 +323,11 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Domain.Motofy", b =>
+            modelBuilder.Entity("Domain.Photo", b =>
                 {
-                    b.HasOne("Domain.Brand", "Brand")
-                        .WithMany("Motofies")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>

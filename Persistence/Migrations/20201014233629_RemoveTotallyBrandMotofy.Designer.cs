@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201014233629_RemoveTotallyBrandMotofy")]
+    partial class RemoveTotallyBrandMotofy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,27 +115,6 @@ namespace Persistence.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("Domain.Photo", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>
@@ -319,13 +300,6 @@ namespace Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("Domain.Photo", b =>
-                {
-                    b.HasOne("Domain.AppUser", null)
-                        .WithMany("Photos")
-                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>

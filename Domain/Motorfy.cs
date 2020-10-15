@@ -2,13 +2,14 @@ using System;
 
 namespace Domain
 {
-    public class Motofy
+    public class Motorfy
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Model { get; set; }
-        public virtual Brand Brand { get; set; }
-        public Guid BrandId { get; set; }
+        // public Brand Brand { get; set; }
+        // public virtual Brand Brand { get; set; }
+        // public Guid BrandId { get; set; }
        
         public double CubicCentimeters { get; set; }
         public string PhotoUrl {get; set;}

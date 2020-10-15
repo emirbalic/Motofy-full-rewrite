@@ -21,6 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using AutoMapper;
+using Infrastructure.Photos;
 
 namespace API
 {
@@ -63,7 +64,7 @@ namespace API
             // ===  MEDIATOR ===
             // services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddMediatR(typeof(Application.Activities.List.Handler).Assembly);
-            services.AddMediatR(typeof(Application.Brands.List.Handler).Assembly);
+            // services.AddMediatR(typeof(Application.Brands.List.Handler).Assembly);
             // services.AddMediatR(typeof(Application.Motofies.List.Handler).Assembly);
             
             // === AUTOMAPPER ===
@@ -100,6 +101,8 @@ namespace API
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
 
         }
 

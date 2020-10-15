@@ -51,7 +51,7 @@ export default class ActivityStore {
       const activities = await agent.Activities.list();
       runInAction('loading activities', () => {
         activities.forEach((activity) => {
-          // console.log('user is: ',this.rootStore.userStore.user!)
+          // console.log('user is: ',this.rootStore.userStore.user!.displayName)
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
         });

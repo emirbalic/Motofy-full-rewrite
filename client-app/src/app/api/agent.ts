@@ -69,6 +69,7 @@ const Activities = {
   unattend: (id: string) => requests.delete(`/activities/${id}/attend`)
 };
 
+
 const User = {
   current: (): Promise<IUser> => requests.get('/user'),
   login: (user: IUserFormValues): Promise<IUser> =>

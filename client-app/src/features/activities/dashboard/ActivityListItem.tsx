@@ -9,13 +9,15 @@ import ActivityListItemAttendees from './ActivityListItemAttendees';
 
 const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
   const host = activity.attendees.filter((h) => h.isHost)[0];
+  // console.log(host);
 
   return (
     <Segment.Group>
       <Segment>
         <Item.Group>
           <Item>
-            <Item.Image size='tiny' circular src={host.image || '/assets/user.png'} />
+          {/*  */}
+            <Item.Image size='tiny' circular src={ host.image || '/assets/user.png'} />
             <Item.Content>
               <Item.Content>
                 <Item.Header as={Link} to={`/activities/${activity.id}`}>{activity.title}</Item.Header>

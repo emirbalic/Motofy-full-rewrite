@@ -12,8 +12,10 @@ namespace Persistence
 
         public DbSet<Value> Values { get; set; }
         public DbSet<Activity> Activities { get; set; }
-        public DbSet<Brand> Brands { get; set; }
-        public DbSet<Motofy> Motofies { get; set; }
+        public DbSet<Photo> Photos { get; set; }
+
+        // public DbSet<Brandmark> Brandmark { get; set; }
+        // public DbSet<Motofy> Motofies { get; set; }
         public DbSet<UserActivity> UserActivities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -40,8 +42,13 @@ namespace Persistence
                 .HasOne(a => a.Activity)
                 .WithMany(a => a.UserActivities)
                 .HasForeignKey(a => a.ActivityId);
-
             // ==== end ====
+
+            // === define one2many relationship ===
+        //     builder.Entity<Motofy>()
+        //         .HasOne(m => m.Brand)
+        //         .WithMany(b => b.Motofies)
+        //         .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
