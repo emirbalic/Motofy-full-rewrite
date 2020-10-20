@@ -23,6 +23,8 @@ import LoginForm from '../../features/user/LoginForm';
 import { RootStoreContext } from '../stores/rootStore';
 import LoadingComponent from './LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
+import GalleryListItem from '../../features/gallery/dashboard/GalleryListItem';
+import ProfilePage from '../../features/profiles/ProfilePage';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
 
@@ -59,14 +61,15 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path={['/createActivity', '/manage/:id']}
                   component={ActivityForm}
                 />
-                <Route path='/gallery' component={GalleryPage} />
-                <Route path='/gallery/:id' component={GalleryPage} />
+                <Route exact path='/gallery' component={GalleryPage} />
+                <Route path='/gallery/:id' component={GalleryListItem} />
                 <Route path='/forum' component={ForumPage} />
                 <Route path='/forum/:id' component={ForumPage} />
                 <Route path='/mechanics' component={MechanicsPage} />
                 <Route path='/mechanics/:id' component={MechanicsPage} />
                 <Route path='/merchant' component={MerchantDashboard} />
                 <Route path='/merchant/:id' component={MerchantDetails} />
+                <Route path='/profile/:username' component={ProfilePage} />
                 <Route path='/login' component={LoginForm} />
                 <Route component={NotFound} />
               </Switch>

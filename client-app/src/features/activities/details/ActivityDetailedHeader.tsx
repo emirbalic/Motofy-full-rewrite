@@ -21,8 +21,10 @@ const activityImageTextStyle = {
 const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
   activity,
 }) => {
+  const host = activity.attendees.filter((h) => h.isHost)[0];
+
   const rootStore = useContext(RootStoreContext);
-  const {attendActivity, cancelAttendance, loading} = rootStore.activityStore;
+  const { attendActivity, cancelAttendance, loading } = rootStore.activityStore;
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: '0' }}>
@@ -42,7 +44,10 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
                 />
                 <p>{format(activity.date, 'eeee do MMMM')}</p>
                 <p>
-                  Hosted by <strong>Bob</strong>
+                  Hosted by{' '}
+                  <Link to={`/profile/${host.username}`}>
+                    <strong>{host.displayName}</strong>
+                  </Link>
                 </p>
               </Item.Content>
             </Item>
@@ -60,9 +65,13 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
             Manage Ridding Route
           </Button>
         ) : activity.isGoing ? (
-          <Button loading={loading} onClick={cancelAttendance}>Cancel your place</Button>
+          <Button loading={loading} onClick={cancelAttendance}>
+            Cancel your place
+          </Button>
         ) : (
-          <Button loading={loading} onClick={attendActivity} color='teal'>Join Us</Button>
+          <Button loading={loading} onClick={attendActivity} color='teal'>
+            Join Us
+          </Button>
         )}
       </Segment>
     </Segment.Group>

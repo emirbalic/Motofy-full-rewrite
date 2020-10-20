@@ -1,7 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Button, Container, Dropdown, Image, Menu } from 'semantic-ui-react';
+import {
+  Button,
+  Container,
+  Dropdown,
+  Image,
+  Menu,
+  Responsive,
+} from 'semantic-ui-react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 
 const NavBar: React.FC = () => {
@@ -13,8 +20,10 @@ const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { user, logout } = rootStore.userStore;
   return (
-    <Menu fixed='top' inverted>
+    <Menu fixed='top'  stackable inverted>
+      {/* pointing secondary */}
       <Container>
+       
         <Menu.Item as={NavLink} exact to='/'>
           <img
             src='/assets/logo.png'
@@ -23,6 +32,7 @@ const NavBar: React.FC = () => {
           />
           Motoranza
         </Menu.Item>
+        <Responsive />
         <Menu.Item name='gallery' exact as={NavLink} to='/gallery' />
         <Menu.Item name='riding routes' exact as={NavLink} to='/activities' />
         <Menu.Item name='forum' exact as={NavLink} to='/forum' />
@@ -60,7 +70,7 @@ const NavBar: React.FC = () => {
               <Dropdown.Menu>
                 <Dropdown.Item
                   as={Link}
-                  to={`/profile/username`}
+                  to={`/profile/${user.userName}`}
                   text='My profile'
                   icon='user'
                 />
@@ -75,3 +85,22 @@ const NavBar: React.FC = () => {
 };
 
 export default observer(NavBar);
+
+
+// mozda neko rijesenje...
+{/* <Responsive
+as={Menu.Item}
+minWidth={790}
+name='gallery'
+NavLink='/'
+// active={activeItem === 'Laptop Item'}
+// onClick={() => setActiveItem('Test Item')}
+/>
+<Responsive
+as={Menu.Item}
+minWidth={790}
+name='riding routes'
+NavLink='/activities'
+// active={activeItem === 'Laptop Item'}
+// onClick={() => setActiveItem('Test Item')}
+/> */}

@@ -1,25 +1,17 @@
 using System;
+using System.Text.Json.Serialization;
 
-namespace Domain
+namespace Application.Motofies
 {
-    public class Motorfy
+    public class MotofyDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        [JsonPropertyName("BrandName")]
+        public string BrandId { get; set; }
         public string Model { get; set; }
-        // public Brand Brand { get; set; }
-        // public virtual Brand Brand { get; set; }
-        // public Guid BrandId { get; set; }
-       
         public double CubicCentimeters { get; set; }
-        public string PhotoUrl {get; set;}
-
-        // da moracu nekad i ovo dodati a to je AppUserId
-        // public string AppUserId { get; set; } 
-
-        // todo: see the bands for photo
-        // public ICollection<Photo> Photos { get; set; }
-
+        public string PhotoUrl { get; set; }
         public string Description { get; set; }
         public DateTime YearOfProduction { get; set; }
         public DateTime DatePublished { get; set; }
@@ -27,7 +19,5 @@ namespace Domain
         public double? PricePaid { get; set; }
         public double? EstimatedValue { get; set; }
         public double? NumberOfKilometers { get; set; }
-
-        // public int BrandId { get; set; }
     }
 }

@@ -3,6 +3,8 @@ import { history } from '../..';
 import { IActivity } from '../models/activity';
 import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
+import { IMotofy } from '../models/motofy';
+import { IPhoto, IProfile } from '../models/profile';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -56,6 +58,13 @@ const requests = {
     axios.put(url, body).then(sleep(1000)).then(responseBody),
   delete: (url: string) =>
     axios.delete(url).then(sleep(1000)).then(responseBody),
+  postForm: (url: string, file: Blob) => {
+    let formData = new FormData();
+    formData.append('File', file);
+    return axios.post(url, formData, {
+      headers: {'Content-type': 'multipart/form-data'}
+    }).then(responseBody)
+  }
 };
 
 const Activities = {
@@ -66,9 +75,12 @@ const Activities = {
     requests.put(`/activities/${activity.id}`, activity),
   delete: (id: string) => requests.delete(`/activities/${id}`),
   attend: (id: string) => requests.post(`/activities/${id}/attend`, {}),
-  unattend: (id: string) => requests.delete(`/activities/${id}/attend`)
+  unattend: (id: string) => requests.delete(`/activities/${id}/attend`),
 };
 
+const Motofies = {
+  list: (): Promise<IMotofy[]> => requests.get('motofies'),
+};
 
 const User = {
   current: (): Promise<IUser> => requests.get('/user'),
@@ -78,7 +90,17 @@ const User = {
     requests.post(`user/register`, user),
 };
 
+const Profiles = {
+  get: (username: string): Promise<IProfile> =>
+    requests.get(`/profiles/${username}`),
+  uploadPhoto: (photo: Blob): Promise<IPhoto> => requests.postForm(`/photos/`, photo),
+  setMain: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
+  deletePhoto: (id:string ) => requests.delete(`/photos/${id}`)
+};
+
 export default {
   Activities,
   User,
+  Motofies,
+  Profiles,
 };
