@@ -7,8 +7,8 @@ namespace Application.Motofies
     {
         public MappingProfile()
         {
-            // CreateMap<Motofy, MotofyDto>()
-            // .ForMember(m => m.BrandId.n, o => o.MapFrom(s => s.AppUser.UserName));
+            CreateMap<Motofy, MotofyDto>()
+            .ForMember(d => d.BrandId , o => o.MapFrom(s => s.Brand.Name));
            
         }
     }

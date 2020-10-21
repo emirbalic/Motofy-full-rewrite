@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201020224520_AddedCommentEntity")]
+    partial class AddedCommentEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,6 +174,9 @@ namespace Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Brand")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("BrandId")
@@ -436,8 +441,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Motofy", b =>
                 {
-                    b.HasOne("Domain.Brand", "Brand")
-                        .WithMany()
+                    b.HasOne("Domain.Brand", null)
+                        .WithMany("Motofies")
                         .HasForeignKey("BrandId");
                 });
 

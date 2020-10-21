@@ -12,22 +12,22 @@ namespace Application.Motofies
 {
     public class Details
     {
-        public class Query : IRequest<Motofy>
+        public class Query : IRequest<MotofyDto>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Motofy>
+        public class Handler : IRequestHandler<Query, MotofyDto>
         {
             private readonly DataContext _context;
-            // private readonly IMapper _mapper;
-            public Handler(DataContext context)//, IMapper mapper)
+            private readonly IMapper _mapper;
+            public Handler(DataContext context, IMapper mapper)
             {
-                // _mapper = mapper;
+                _mapper = mapper;
                 _context = context;
             }
 
-            public async Task<Motofy> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<MotofyDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 // === Eager loading -> this plus virtual keyword ===
                 // var activity = await _context.Activities
@@ -43,9 +43,9 @@ namespace Application.Motofies
                     throw new RestException(HttpStatusCode.NotFound,
                         new { activity = "NotFound" });
 
-                // var motofyToReturn = _mapper.Map<Motofy, MotofyDto>(activity);
+                var motofyToReturn = _mapper.Map<Motofy, MotofyDto>(motofy);
 
-                return motofy;
+                return motofyToReturn;
             }
         }
     }

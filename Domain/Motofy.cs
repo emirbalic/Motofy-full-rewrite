@@ -6,9 +6,11 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        // public virtual Brand Brand { get; set; } //== ne radi jer ne mozes nikako dodjeliti brandId iako ga dobije...
+        public virtual Brand Brand { get; set; } //== ne radi jer ne mozes nikako dodjeliti brandId iako ga dobije...
         // public Guid BrandId { get; set; }
-        public string Brand { get; set; }
+
+        // cazzzoooo , this should be brand brand and it would work like before
+        // public string Brand { get; set; }
         public string Model { get; set; }
         public double CubicCentimeters { get; set; }
         public string PhotoUrl { get; set; }

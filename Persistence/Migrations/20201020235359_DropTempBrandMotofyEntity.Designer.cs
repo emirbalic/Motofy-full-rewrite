@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201020235359_DropTempBrandMotofyEntity")]
+    partial class DropTempBrandMotofyEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,32 +117,6 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Domain.Brand", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CityOfOrigin")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DateOfEstablishment")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LandOfOrigin")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LogoUrl")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Brands");
-                });
-
             modelBuilder.Entity("Domain.Comment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -166,55 +142,6 @@ namespace Persistence.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("Domain.Motofy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("BrandId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("City")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("CubicCentimeters")
-                        .HasColumnType("REAL");
-
-                    b.Property<DateTime>("DatePublished")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double?>("EstimatedValue")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("Model")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double?>("NumberOfKilometers")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("PhotoUrl")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double?>("PricePaid")
-                        .HasColumnType("REAL");
-
-                    b.Property<DateTime>("YearOfProduction")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
-
-                    b.ToTable("Motofies");
                 });
 
             modelBuilder.Entity("Domain.Photo", b =>
@@ -432,13 +359,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
-                });
-
-            modelBuilder.Entity("Domain.Motofy", b =>
-                {
-                    b.HasOne("Domain.Brand", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BrandId");
                 });
 
             modelBuilder.Entity("Domain.Photo", b =>

@@ -22,6 +22,8 @@ using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using AutoMapper;
 using Infrastructure.Photos;
+using System.Threading.Tasks;
+using API.SignalR;
 
 namespace API
 {
@@ -42,13 +44,13 @@ namespace API
                 opt.UseLazyLoadingProxies();
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddControllers(opt => 
+            services.AddControllers(opt =>
             {
                 var policy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser().Build();
                 opt.Filters.Add(new AuthorizeFilter(policy));
             })
-                .AddFluentValidation(cfg => 
+                .AddFluentValidation(cfg =>
                 {
                     // here might be necessery to specify all folders
                     cfg.RegisterValidatorsFromAssemblyContaining<Create>();
@@ -57,7 +59,8 @@ namespace API
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000")
+                        .AllowCredentials();
                 });
             });
 
@@ -66,9 +69,12 @@ namespace API
             services.AddMediatR(typeof(Application.Activities.List.Handler).Assembly);
             // services.AddMediatR(typeof(Application.Brands.List.Handler).Assembly);
             // services.AddMediatR(typeof(Application.Motofies.List.Handler).Assembly);
-            
+
             // === AUTOMAPPER ===
             services.AddAutoMapper(typeof(List.Handler));
+
+            // === SIGNAL R ===
+            services.AddSignalR();
 
             var builder = services.AddIdentityCore<AppUser>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
@@ -77,25 +83,41 @@ namespace API
 
 
             // === IS ACTIVITY HOST (ONE POSSIBLE WAY)===
-            services.AddAuthorization(opt => 
+            services.AddAuthorization(opt =>
             {
-                opt.AddPolicy("IsActivityHost", policy => {
+                opt.AddPolicy("IsActivityHost", policy =>
+                {
                     policy.Requirements.Add(new IsHostRequirement());
                 });
             });
             services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
-            
+
             // === AUTHENTICATION === 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(opt => 
+                .AddJwtBearer(opt =>
                 {
                     opt.TokenValidationParameters = new TokenValidationParameters
                     {
-                      ValidateIssuerSigningKey = true,
-                      IssuerSigningKey = key,
-                      ValidateAudience = false,
-                      ValidateIssuer = false
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateAudience = false,
+                        ValidateIssuer = false
+                    };
+
+                    // === add token to signal R ===
+                    opt.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                            {
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
@@ -128,7 +150,11 @@ namespace API
 
             app.UseEndpoints(endpoints =>
             {
+                // === routing provided by route controllers ===
                 endpoints.MapControllers();
+
+                // === additional endpoints form SignalR ===
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }

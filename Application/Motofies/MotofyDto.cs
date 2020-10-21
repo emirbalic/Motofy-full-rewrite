@@ -7,7 +7,7 @@ namespace Application.Motofies
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        [JsonPropertyName("BrandName")]
+        [JsonPropertyName("brand")]
         public string BrandId { get; set; }
         public string Model { get; set; }
         public double CubicCentimeters { get; set; }

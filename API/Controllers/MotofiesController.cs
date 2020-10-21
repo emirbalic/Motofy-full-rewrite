@@ -12,14 +12,14 @@ namespace API.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-         public async Task<ActionResult<List<Motofy>>> List()
+         public async Task<ActionResult<List<MotofyDto>>> List()
         {
             return await Mediator.Send(new List.Query());
         }
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<Motofy>> Details(Guid id)
+        public async Task<ActionResult<MotofyDto>> Details(Guid id)
         {
             return await Mediator.Send(new Details.Query { Id = id });
         }

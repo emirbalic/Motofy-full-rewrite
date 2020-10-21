@@ -11,9 +11,9 @@ namespace Application.Motofies
 {
     public class List
     {
-        public class Query : IRequest<List<Motofy>> { }
+        public class Query : IRequest<List<MotofyDto>> { }
 
-        public class Handler : IRequestHandler<Query, List<Motofy>>
+        public class Handler : IRequestHandler<Query, List<MotofyDto>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ namespace Application.Motofies
                 _context = context;
             }
 
-            public async Task<List<Motofy>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<MotofyDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 // === Eager loading -> this plus virtual keyword ===
                 // var motofies =
@@ -36,7 +36,9 @@ namespace Application.Motofies
                 var motofies =
                     await _context.Motofies.ToListAsync();
 
-                return motofies;
+//                return _mapper.Map<List<Activity>, List<ActivityDto>>(activities);
+                return _mapper.Map<List<Motofy>, List<MotofyDto>>(motofies);
+                // return motofies;
             }
 
         }
