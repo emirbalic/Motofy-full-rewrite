@@ -8,25 +8,40 @@ import ProfileContent from './ProfileContent';
 import ProfileHeader from './ProfileHeader';
 
 interface RouteParams {
-    username: string
+  username: string;
 }
 
 interface IProps extends RouteComponentProps<RouteParams> {}
 
-const ProfilePage: React.FC<IProps> = ({match}) => {
-    const rootStore = useContext(RootStoreContext);
-    const {profile, loadingProfile, loadProfile} = rootStore.profileStore;
+const ProfilePage: React.FC<IProps> = ({ match }) => {
+  const rootStore = useContext(RootStoreContext);
+  const {
+    profile,
+    loadingProfile,
+    loadProfile,
+    follow,
+    unfollow,
+    isCurrentUser,
+    loading,
+    setActiveTab
+  } = rootStore.profileStore;
 
-    useEffect(() => {
-        loadProfile(match.params.username)
-    },[loadProfile, match])
-    
-    if (loadingProfile) return <LoadingComponent content='Loading profile...'/>
+  useEffect(() => {
+    loadProfile(match.params.username);
+  }, [loadProfile, match]);
+
+  if (loadingProfile) return <LoadingComponent content='Loading profile...' />;
   return (
     <Grid>
       <Grid.Column width={16}>
-        <ProfileHeader profile={profile!}/>
-        <ProfileContent/>
+        <ProfileHeader
+          profile={profile!}
+          isCurrentUser={isCurrentUser}
+          follow={follow}
+          unfollow={unfollow}
+          loading={loading}
+        />
+        <ProfileContent setActiveTab={setActiveTab}/>
       </Grid.Column>
     </Grid>
   );

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 import { IMotofy } from '../models/motofy';
 import { IPhoto, IProfile } from '../models/profile';
+import { userInfo } from 'os';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -96,7 +97,10 @@ const Profiles = {
   uploadPhoto: (photo: Blob): Promise<IPhoto> => requests.postForm(`/photos/`, photo),
   setMain: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
   deletePhoto: (id:string ) => requests.delete(`/photos/${id}`),
-  updateProfile: (profile: Partial<IProfile>) => requests.put(`/profiles`, profile)
+  updateProfile: (profile: Partial<IProfile>) => requests.put(`/profiles`, profile),
+  follow: (username: string) => requests.post(`/profiles/${username}/follow`, {}),
+  unfollow: (username: string) => requests.delete(`/profiles/${username}/follow`),
+  listFollowings: (username: string, predicate: string) => requests.get(`/profiles/${username}/follow?predicate=${predicate}`)
 };
 
 export default {
