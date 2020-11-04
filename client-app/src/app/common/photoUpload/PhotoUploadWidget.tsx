@@ -68,6 +68,3 @@ const PhotoUploadWidget: React.FC<IProps> = ({ loading, uploadPhoto }) => {
 
 export default observer(PhotoUploadWidget);
 
-{
-  /* <Image src={files[0].preview} /> */
-}

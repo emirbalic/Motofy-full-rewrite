@@ -3,16 +3,17 @@ import { observable, action, runInAction } from 'mobx';
 import { IMotofy } from '../models/motofy';
 import agent from '../api/agent';
 
-export default class MotofyStore {
+export default class motofyStore {
   rootStore: RootStore;
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
   }
 
-  @observable motofy: IMotofy | null = null;
+  @observable motofyRegistry = new Map();
+
+  @observable motofy: IMotofy | undefined;
   @observable motofies: IMotofy[] = [];
 
-  @observable motofyRegistry = new Map();
 
   @observable loadingInitial = false;
 
@@ -25,23 +26,64 @@ export default class MotofyStore {
   //     )
   //   }
 
+  // @action loadMotofies = async () => {
+  //   this.loadingInitial = true;
+  //   agent.Motofies.list()
+  //     .then(motofies => {
+  //       motofies.forEach((motofy) => {
+  //         this.motofies.push(motofy);
+  //         console.log('xxxxxxx')
+  //       })
+  //     });
+  //     //finally(() => this.loadingInitial = false)
+  // };
+
   @action loadMotofies = async () => {
-    // this.loadingInitial = true;
+    this.loadingInitial = true;
 
     try {
       const motofies = await agent.Motofies.list();
+      // motofies.forEach(motofy => {
+      //   // motofy.datePublished = motofy.datePublished.split('.')[0];
+      //   this.motofyRegistry.set(motofy.id, motofy);
+      // })
       runInAction('loading mototofies', () => {
-        this.motofies = motofies;
-        motofies.forEach((motofy) => {
-          //   console.log('motofyId: ', motofy.id);
-          this.motofyRegistry.set(motofy.id, motofy);
-        });
+        this.loadingInitial = false;
+        this.motofies = motofies; 
+        // console.log('Im here');
       });
-      // console.log(this.motofyRegistry);
-      //   this.loadingInitial = false;
     } catch (error) {
+      runInAction(() => {
+        this.loadingInitial = false;
+      });
       console.log(error);
-      // this.loadingInitial = false;
     }
+  };
+
+  @action loadMotofy = async (id: string) => {
+    let motofy = this.getMotofy(id);
+    console.log(motofy);
+    if (motofy) {
+      this.motofy = motofy;
+    } else {
+      this.loadingInitial = true;
+      try {
+        motofy = await agent.Motofies.details(id);
+        runInAction('getting motofy', () => {
+          this.motofy = motofy;
+          this.loadingInitial = false;
+        });
+      } catch (error) {
+        runInAction('Getting activity error', () => {
+          this.loadingInitial = false;
+        });
+        console.log(error);
+      }
+    }
+  };
+
+  getMotofy = (id: string) => {
+
+    return this.motofies.find((x) => x.id === id);
   };
 }

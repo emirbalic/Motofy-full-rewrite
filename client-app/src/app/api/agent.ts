@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 import { IMotofy } from '../models/motofy';
 import { IPhoto, IProfile } from '../models/profile';
-import { userInfo } from 'os';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -81,6 +80,12 @@ const Activities = {
 
 const Motofies = {
   list: (): Promise<IMotofy[]> => requests.get('motofies'),
+  details: (id: string) => requests.get(`/motofies/${id}`),
+  // TODO: 
+  create: (motofy: IMotofy) => requests.post('/motofies', motofy),
+  update: (motofy: IMotofy) =>
+    requests.put(`/motofies/${motofy.id}`, motofy),
+  delete: (id: string) => requests.delete(`/motofies/${id}`),
 };
 
 const User = {

@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import agent from '../api/agent';
 import { IPhoto, IProfile } from '../models/profile';
 import { RootStore } from './rootStore';
-import UserStore from './userStore';
 
 export default class ProfileStore {
   rootStore: RootStore;

@@ -5,7 +5,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 import ActivityListItem from './ActivityListItem';
 import { format } from 'date-fns';
 
-const ActivityList: React.FC = () => {
+const ActivityList = () => { //: React.FC -> jer mislim ne treba..?
   const rootStore = useContext(RootStoreContext);
   const {activitiesByDate} = rootStore.activityStore;
   return (

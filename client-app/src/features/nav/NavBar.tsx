@@ -13,9 +13,10 @@ import { RootStoreContext } from '../../app/stores/rootStore';
 
 const NavBar: React.FC = () => {
   const createOptions = [
-    { key: 'Mecanic', text: 'Mecanics Shop', value: 'Mecanic' },
-    { key: 'Riding', text: 'Riding Route', value: 'Riding' },
-    { key: 'Post', text: 'Gallery Post', value: 'Post' },
+    { key: 'Mecanic', text: 'Mecanics Shop', value: 'Mecanic', as: Link, to: '/forum'},
+    { key: 'Riding', text: 'Riding Route', value: 'Riding', as: Link, to: '/createActivity'},
+    { key: 'Post', text: 'Gallery Post', value: 'Post', as: Link, to: '/' },
+    { key: 'Forum', text: 'Forum Post', value: 'Forum', as: Link, to: '/forumform' },
   ];
   const rootStore = useContext(RootStoreContext);
   const { user, logout } = rootStore.userStore;
@@ -85,22 +86,3 @@ const NavBar: React.FC = () => {
 };
 
 export default observer(NavBar);
-
-
-// mozda neko rijesenje...
-{/* <Responsive
-as={Menu.Item}
-minWidth={790}
-name='gallery'
-NavLink='/'
-// active={activeItem === 'Laptop Item'}
-// onClick={() => setActiveItem('Test Item')}
-/>
-<Responsive
-as={Menu.Item}
-minWidth={790}
-name='riding routes'
-NavLink='/activities'
-// active={activeItem === 'Laptop Item'}
-// onClick={() => setActiveItem('Test Item')}
-/> */}
