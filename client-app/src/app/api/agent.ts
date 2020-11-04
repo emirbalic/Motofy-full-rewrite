@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 import { IMotofy } from '../models/motofy';
 import { IPhoto, IProfile } from '../models/profile';
+import { IForumpost } from '../models/forumpost';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -53,7 +54,7 @@ const sleep = (ms: number) => (response: AxiosResponse) =>
 
 const requests = {
   get: (url: string) => axios.get(url).then(sleep(1000)).then(responseBody),
-  post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
+  post: (url: string, body: {}) => axios.post(url, body).then(sleep(1000)).then(responseBody),
   put: (url: string, body: {}) =>
     axios.put(url, body).then(sleep(1000)).then(responseBody),
   delete: (url: string) =>
@@ -77,6 +78,15 @@ const Activities = {
   attend: (id: string) => requests.post(`/activities/${id}/attend`, {}),
   unattend: (id: string) => requests.delete(`/activities/${id}/attend`),
 };
+
+const Forumposts = {
+  list: (): Promise<IForumpost[]> => requests.get('/forumposts'),
+  details: (id: string) => requests.get(`/forumposts/${id}`),
+  create: (forumpost: IForumpost) => requests.post('/forumposts', forumpost),
+  update: (forumpost: IForumpost) =>
+    requests.put(`/forumposts/${forumpost.id}`, forumpost),
+  delete: (id: string) => requests.delete(`/forumposts/${id}`),
+}
 
 const Motofies = {
   list: (): Promise<IMotofy[]> => requests.get('motofies'),
@@ -113,4 +123,5 @@ export default {
   User,
   Motofies,
   Profiles,
+  Forumposts
 };

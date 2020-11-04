@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { IForumpost } from '../../../app/models/forumpost';
 
 interface IProps {
   forumposts: IForumpost[];
   selectForum: (id: string) => void;
-  deleteForumpost: (id:string) => void;
+  deleteForumpost: (e: SyntheticEvent<HTMLButtonElement>, id: string) => void;
+  submittting: boolean;
+  target: string;
 }
 
-const ForumList: React.FC<IProps> = ({ forumposts, selectForum, deleteForumpost }) => {
+const ForumList: React.FC<IProps> = ({
+  forumposts,
+  selectForum,
+  deleteForumpost,
+  submittting,
+  target,
+}) => {
   console.log('forumposts', forumposts);
   return (
     <Segment clearing>
@@ -35,7 +43,9 @@ const ForumList: React.FC<IProps> = ({ forumposts, selectForum, deleteForumpost 
                   color='blue'
                 />
                 <Button
-                  onClick={() => deleteForumpost(forumpost.id)}
+                  name={forumpost.id}
+                  loading={target === forumpost.id && submittting}
+                  onClick={(e) => deleteForumpost(e, forumpost.id)}
                   floated='right'
                   content='delete'
                   color='red'

@@ -11,12 +11,14 @@ interface IProps {
   forumpost: IForumpost;
   createForumpost: (forumpost: IForumpost) => void;
   editForumpost: (forumpost: IForumpost) => void;
+  submittting: boolean;
 }
 const ForumForm: React.FC<IProps> = ({
   setEditMode,
   forumpost: initialFormState,
   createForumpost,
   editForumpost,
+  submittting,
 }) => {
   const rootStore = useContext(RootStoreContext);
   const { user, logout } = rootStore.userStore;
@@ -42,20 +44,25 @@ const ForumForm: React.FC<IProps> = ({
     // console.log('newForumpost about to');
     if (forumpost.id.length === 0) {
       let newForumpost = {
-          title: forumpost.title,
-          body: forumpost.body,
-          category: forumpost.category,
-          id: uuid(),
-          displayName: user!.displayName,
-          dateAdded: Date.now().toString()
+        title: forumpost.title,
+        body: forumpost.body,
+        category: forumpost.category,
+        id: uuid(),
+        displayName: user!.displayName,
+        // dateAdded: Date.now().toISOString(),
+        dateAdded: Date.now().toString(),
+        // dateAdded: "2020-11-01T16:09:31",
+        authorId: 'a',
+
+        // ili
         // ...forumpost,
         // id: uuid(),
         // displayName: user!.displayName,
         // dateAdded: Date.now().toString(),
-      }
-    //   console.log('newForumpost', newForumpost);
+      };
+
       createForumpost(newForumpost);
-    } else {
+    } else if (forumpost.id.length > 0) {
       editForumpost(forumpost);
     }
   };
@@ -88,7 +95,13 @@ const ForumForm: React.FC<IProps> = ({
           placeholder='category'
           value={forumpost.category}
         />
-        <Button floated='right' positive type='submit' content='submit' />
+        <Button
+          loading={submittting}
+          floated='right'
+          positive
+          type='submit'
+          content='submit'
+        />
         <Button
           floated='right'
           type='butoon'
