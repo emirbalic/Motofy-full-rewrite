@@ -66,9 +66,12 @@ namespace API
             });
 
             // ===  MEDIATOR ===
-            // services.AddMediatR(typeof(List.Handler).Assembly);
-            services.AddMediatR(typeof(Application.Activities.List.Handler).Assembly);
-            // services.AddMediatR(typeof(Application.Brands.List.Handler).Assembly);
+            // comment
+            services.AddMediatR(typeof(List.Handler).Assembly);
+
+            // uncomment
+            // services.AddMediatR(typeof(Application.Activities.List.Handler).Assembly);
+            // services.AddMediatR(typeof(Application.Mechanics.List.Handler).Assembly);
             // services.AddMediatR(typeof(Application.Motofies.List.Handler).Assembly);
 
             // === AUTOMAPPER ===

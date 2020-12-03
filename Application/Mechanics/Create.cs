@@ -4,23 +4,26 @@ using System.Threading.Tasks;
 using Domain;
 using MediatR;
 using Persistence;
-// using FluentValidation;
+using FluentValidation;
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 
-namespace Application.Forumposts
+namespace Application.Mechanics
 {
     public class Create
     {
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-            // public virtual AppUser Author { get; set; }
-            public DateTime DateAdded { get; set; }
-            public string Title { get; set; }
-            public string Body { get; set; }
-            // public string Username { get; set; }
+            public string Name { get; set; }
+            public string PhotoUrl { get; set; }
+            public string Description { get; set; }
+            public DateTime YearOfStart { get; set; }
+            public DateTime DatePublished { get; set; }
+            public string Country { get; set; }
+            public string City { get; set; }
+            public string Address { get; set; }
 
         }
 
@@ -40,25 +43,25 @@ namespace Application.Forumposts
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
-                // var forumpostToSave = _mapper.Map<ForumpostDto, Forumpost>(forumpost);
-                // var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == 
-                //     request.Username);
-
-                // ako ne bude radilo gornje, a nesto kontam da nece...
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());
 
-                var forumpost = new Forumpost
+                var mechanic = new Mechanic
                 {
-                    Author = user,
                     Id = request.Id,
-                    Title = request.Title,
-                    // DateAdded = DateTime.Now,
-                    DateAdded = request.DateAdded,
-                    Body = request.Body
+                    Author = user,
+                    Name = request.Name,
+                    // PhotoUrl = request
+                    Description = request.Description,
+                    YearOfStart = request.YearOfStart,
+                    DatePublished = DateTime.Now,
+                    Country = request.Country,
+                    City = request.City,
+                    Address = request.Address
+                    
                 };
 
-                _context.Forumposts.Add(forumpost);
+                _context.Mechanics.Add(mechanic);
 
                 var success = await _context.SaveChangesAsync() > 0;
 

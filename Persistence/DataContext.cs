@@ -21,7 +21,8 @@ namespace Persistence
         // === MOTOFY ===
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Motofy> Motofies { get; set; }
-        public DbSet<Forumpost> Forumposts { get; set; }
+        public DbSet<Forumpost> Forumposts { get; set; } 
+        public DbSet<Mechanic> Mechanics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

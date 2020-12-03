@@ -7,14 +7,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Forumposts
+namespace Application.Mechanics
 {
     public class List
     {
+        public class Query : IRequest<List<Mechanic>> { }
 
-        public class Query : IRequest<List<ForumpostDto>> { }
-
-        public class Handler : IRequestHandler<Query, List<ForumpostDto>>
+        public class Handler : IRequestHandler<Query, List<Mechanic>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -24,13 +23,12 @@ namespace Application.Forumposts
                 _context = context;
             }
 
-            public async Task<List<ForumpostDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Mechanic>> Handle(Query request, CancellationToken cancellationToken)
             {
                 // === Lazy loading ===
-                var forumposts = await _context.Forumposts.ToListAsync();
-                return _mapper.Map<List<Forumpost>, List<ForumpostDto>>(forumposts);
+                var mechanics = await _context.Mechanics.ToListAsync();
 
-                // return forumposts;
+                return mechanics;
             }
 
 
