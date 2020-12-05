@@ -13,9 +13,9 @@ import { RootStoreContext } from '../../app/stores/rootStore';
 
 const NavBar: React.FC = () => {
   const createOptions = [
-    { key: 'Mecanic', text: 'Mecanics Shop', value: 'Mecanic', as: Link, to: '/forum'},
+    { key: 'Mecanic', text: 'Mecanics Shop', value: 'Mecanic', as: Link, to: '/mechanicForm'},
     { key: 'Riding', text: 'Riding Route', value: 'Riding', as: Link, to: '/createActivity'},
-    { key: 'Post', text: 'Gallery Post', value: 'Post', as: Link, to: '/' },
+    { key: 'Post', text: 'Gallery Post', value: 'Post', as: Link, to: '/galleryForm' },
     { key: 'Forum', text: 'Forum Post', value: 'Forum', as: Link, to: '/forumform' },
   ];
   const rootStore = useContext(RootStoreContext);
@@ -39,7 +39,7 @@ const NavBar: React.FC = () => {
         <Menu.Item name='forum' exact as={NavLink} to='/forum' />
         <Menu.Item name='repair shops' exact as={NavLink} to='/mechanics' />
         <Menu.Item name='shop' exact as={NavLink} to='/merchant' />
-        <Menu.Item>
+        {/* <Menu.Item>
           <Button
             as={Link}
             to='/createActivity'
@@ -47,7 +47,7 @@ const NavBar: React.FC = () => {
             positive
             content='Create Riding Route'
           />
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item>
           <Dropdown
             button

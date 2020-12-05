@@ -12,8 +12,9 @@ import {
 import HomePage from '../../features/home/HomePage';
 import ActivityForm from '../../features/activities/form/ActivityForm';
 import GalleryPage from '../../features/gallery/dashboard/GalleryPage';
-import ForumPage from '../../features/forum/dashboard/ForumPage';
-import MechanicsPage from '../../features/mechanics/dashboard/MechanicsPage';
+import GalleryDashboard from '../../features/gallery/dashboard/GalleryDashboard';
+// import ForumPage from '../../features/forum/dashboard/ForumPage';
+import MechanicDashboard from '../../features/mechanics/dashboard/MechanicDashboard';
 import ActivityDetails from '../../features/activities/details/ActivityDetails';
 import MerchantDashboard from '../../features/shop/dashboard/MerchantDashboard';
 import MerchantDetails from '../../features/shop/details/MerchantDetails';
@@ -27,6 +28,10 @@ import ProfilePage from '../../features/profiles/ProfilePage';
 import GaleryDetails from '../../features/gallery/details/GaleryDetails';
 import ForumDashboard from '../../features/forum/dashboard/ForumDashboard';
 import ForumForm from '../../features/forum/form/ForumForm';
+import ForumDetails from '../../features/forum/details/ForumDetails';
+import MechanicDetails from '../../features/mechanics/details/MechanicDetails';
+import MechanicForm from '../../features/mechanics/form/MechanicForm';
+import GalleryForm from '../../features/gallery/form/GalleryForm';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
 
@@ -76,13 +81,18 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path={['/createActivity', '/manage/:id']}
                   component={ActivityForm}
                 />
-                <Route exact path='/gallery' component={GalleryPage} />
+                {/* <Route exact path='/gallery' component={GalleryPage} /> */}
+                <Route exact path='/gallery' component={GalleryDashboard} />
                 <Route path='/gallery/:id' component={GaleryDetails} />
+                <Route path='/galleryForm' component={GalleryForm} />
                 <Route exact path='/forum' component={ForumDashboard} />
+                <Route exact path='/forum/:id' component={ForumDetails} />
                 <Route exact path='/forumform' component={ForumForm} />
-                <Route path='/forum/:id' component={ForumPage} />
-                <Route path='/mechanics' component={MechanicsPage} />
-                <Route path='/mechanics/:id' component={MechanicsPage} />
+                {/* <Route path='/forum/:id' component={ForumPage} /> */}
+                <Route path='/mechanics' component={MechanicDashboard} />
+                <Route path='/mechanics/:id' component={MechanicDetails} />
+                <Route path='/mechanicForm' component={MechanicForm} />
+                {/* <Route path='/mechanics/:id' component={MechanicsPage} /> */}
                 <Route path='/merchant' component={MerchantDashboard} />
                 <Route path='/merchant/:id' component={MerchantDetails} />
                 <Route path='/profile/:username' component={ProfilePage} />

@@ -9,6 +9,8 @@ namespace Domain
         public DateTime DateAdded { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
+
+        // category will have a set photo in client app
         public string Category { get; set; }
      
     }

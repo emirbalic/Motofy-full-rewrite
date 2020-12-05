@@ -1,30 +1,33 @@
 import React, { useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Grid } from 'semantic-ui-react';
+import { Button, Card, Grid, Icon, Image } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { IMotofy } from '../../../app/models/motofy';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import GalleryDetailedInfo from './GalleryDetailedInfo';
 
-// interface IProps {
-//   motofy: IMotofy;
-// }
-interface DetailParams {
-  id: string;
+interface IProps {
+  // motofy: IMotofy;
+  // selectMotofy: (id: string) => void;
+  motofy: IMotofy;
+  setEditMode: (editMode: boolean) => void;
+  setSelectedMotofy: (activity: IMotofy | null) => void;
 }
-const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({
-  match,
-  history,
+
+const GaleryDetails: React.FC<IProps> = ({
+  motofy,
+  setEditMode,
+  setSelectedMotofy,
 }) => {
-  const rootStore = useContext(RootStoreContext);
-  const { motofy, loadMotofy, loadingInitial } = rootStore.motofyStore;
+  // const GaleryDetails = () => {
 
-  useEffect(() => {
-    loadMotofy(match.params.id);
-    // console.log(motofy)
-  }, [loadMotofy, match.params.id, history]);
+  // useEffect(() => {
+  //   loadMotofy(match.params.id);
+  //   // console.log(motofy)
+  // }, [loadMotofy, match.params.id, history]);
 
-  if (loadingInitial || !motofy)
-    return <LoadingComponent content='Loading activity...' />;
+  // if (loadingInitial || !motofy)
+  //   return <LoadingComponent content='Loading activity...' />;
 
   //!!! what to do with this? need to study this case
   // if(!activity)
@@ -32,12 +35,27 @@ const GaleryDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 
   // return <h1>Galery Details</h1>
   return (
-    <Grid>
-      <pre>this.is details</pre>
-      <Grid.Column width={10}>
-        <GalleryDetailedInfo motofy={motofy!} />
-      </Grid.Column>
-    </Grid>
+    <Card fluid>
+      <Image src={`/assets/placeholder.png`} wrapped ui={false} />
+      <Card.Content>
+        <Card.Header>{motofy.name}</Card.Header>
+        <Card.Meta>
+          <span>{motofy.datePublished}</span>
+        </Card.Meta>
+        <Card.Description>{motofy.description}</Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <Button.Group widths={2}>
+          <Button
+            onClick={() => setEditMode(true)}
+            basic
+            color='blue'
+            content='edit'
+          />
+          <Button onClick={() => setSelectedMotofy(null)} basic color='grey' content='cancel' />
+        </Button.Group>
+      </Card.Content>
+    </Card>
   );
 };
 

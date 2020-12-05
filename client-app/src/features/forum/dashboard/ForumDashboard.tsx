@@ -6,6 +6,7 @@ import ForumForm from '../form/ForumForm';
 import ForumList from './ForumList';
 import agent from '../../../app/api/agent';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+
 const ForumDashboard = () => {
   const [forumposts, setForumposts] = useState<IForumpost[]>([]);
   const [selectedForum, setSelectedForum] = useState<IForumpost | null>(null);
@@ -25,32 +26,41 @@ const ForumDashboard = () => {
 
   const handleCreateForumpost = (forumpost: IForumpost) => {
     setSubmitting(true);
-    agent.Forumposts.create(forumpost).then(() => {
-      setForumposts([...forumposts, forumpost]);
-      setSelectedForum(forumpost);
-      setEditMode(false);
-    }).then(() => setSubmitting(false));
+    agent.Forumposts.create(forumpost)
+      .then(() => {
+        setForumposts([...forumposts, forumpost]);
+        setSelectedForum(forumpost);
+        setEditMode(false);
+      })
+      .then(() => setSubmitting(false));
   };
 
   const handleEditForumpost = (forumpost: IForumpost) => {
     setSubmitting(true);
-    
-    agent.Forumposts.update(forumpost).then(() => {
-      setForumposts([
-        ...forumposts.filter((a) => a.id !== forumpost.id),
-        forumpost,
-      ]);
-      setSelectedForum(forumpost);
-      setEditMode(false);
-    }).then(() => setSubmitting(false));
+
+    agent.Forumposts.update(forumpost)
+      .then(() => {
+        setForumposts([
+          ...forumposts.filter((a) => a.id !== forumpost.id),
+          forumpost,
+        ]);
+        setSelectedForum(forumpost);
+        setEditMode(false);
+      })
+      .then(() => setSubmitting(false));
   };
-  
-  const handleDeleteForumpost = (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
+
+  const handleDeleteForumpost = (
+    event: SyntheticEvent<HTMLButtonElement>,
+    id: string
+  ) => {
     setSubmitting(true);
     setTarget(event.currentTarget.name);
-    agent.Forumposts.delete(id).then(() => {
-      setForumposts([...forumposts.filter((a) => a.id !== id)]);
-    }).then(() => setSubmitting(false));
+    agent.Forumposts.delete(id)
+      .then(() => {
+        setForumposts([...forumposts.filter((a) => a.id !== id)]);
+      })
+      .then(() => setSubmitting(false));
   };
 
   useEffect(() => {
@@ -69,7 +79,7 @@ const ForumDashboard = () => {
       });
   }, []);
 
-  if(loading) return <LoadingComponent content='Loading forum posts...'/>
+  if (loading) return <LoadingComponent content='Loading forum posts...' />;
 
   return (
     <div>

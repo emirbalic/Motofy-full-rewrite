@@ -6,8 +6,8 @@ export interface IMotofy {
     cubicCentimeters: number;
     photoUrl?: string | null;
     description?: string;
-    yearOfProduction?: Date;
-    datePublished?: Date | undefined;
+    yearOfProduction?: string;// Date;
+    datePublished?: string; // Date | undefined;
     city?: string;
     pricePaid?: number;
     estimatedValue?: number;

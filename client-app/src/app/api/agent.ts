@@ -6,6 +6,7 @@ import { IUser, IUserFormValues } from '../models/user';
 import { IMotofy } from '../models/motofy';
 import { IPhoto, IProfile } from '../models/profile';
 import { IForumpost } from '../models/forumpost';
+import { IMechanic } from '../models/mechanic';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -88,6 +89,18 @@ const Forumposts = {
   delete: (id: string) => requests.delete(`/forumposts/${id}`),
 }
 
+
+
+const Mechanics = {
+  list: (): Promise<IMechanic[]> => requests.get('mechanics'),
+  // details: (id: string) => requests.get(`/motofies/${id}`),
+  // // TODO: 
+  // create: (motofy: IMotofy) => requests.post('/motofies', motofy),
+  // update: (motofy: IMotofy) =>
+  //   requests.put(`/motofies/${motofy.id}`, motofy),
+  // delete: (id: string) => requests.delete(`/motofies/${id}`),
+};
+
 const Motofies = {
   list: (): Promise<IMotofy[]> => requests.get('motofies'),
   details: (id: string) => requests.get(`/motofies/${id}`),
@@ -123,5 +136,6 @@ export default {
   User,
   Motofies,
   Profiles,
-  Forumposts
+  Forumposts,
+  Mechanics
 };

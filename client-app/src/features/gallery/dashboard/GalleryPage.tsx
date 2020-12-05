@@ -27,7 +27,7 @@ const GalleryPage = () => {
         <h2 style={{ minHeight: '300px' }}>Left sidebar</h2>
       </Grid.Column>
       <Grid.Column width={10}>
-        <GalleryList />
+        {/* <GalleryList /> */}
       </Grid.Column>
       <Grid.Column width={3}>
         <h2 style={{ minHeight: '300px' }}>Right sidebar</h2>
