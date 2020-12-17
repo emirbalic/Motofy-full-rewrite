@@ -1,6 +1,5 @@
-import { id } from 'date-fns/locale';
-import React, { useEffect, useState } from 'react';
-import { Grid, List } from 'semantic-ui-react';
+import React, {  useEffect, useState } from 'react';
+import { Grid, } from 'semantic-ui-react';
 import agent from '../../../app/api/agent';
 import { IMotofy } from '../../../app/models/motofy';
 import GaleryDetails from '../details/GaleryDetails';
@@ -18,10 +17,15 @@ const GalleryDashboard = () => {
     setEditMode(false);
   };
 
-  const [loading, setLoading] = useState(true);
-
   const handleDeleteMotofy = (id: string) => {
     setMotofies([...motofies.filter((m) => m.id !== id)]);
+  };
+
+
+  const handleEditMotofy = (motofy: IMotofy) => {
+          
+
+    setMotofies([...motofies.filter(m => m.id !== motofy.id), motofy])
   };
 
   useEffect(() => {
@@ -34,7 +38,8 @@ const GalleryDashboard = () => {
         });
         setMotofies(motofies);
       })
-      .then(() => setLoading(false));
+      // .then(() => setLoading(false))
+      ;
   });
   return (
     <Grid>
@@ -58,6 +63,7 @@ const GalleryDashboard = () => {
             key={(selectedMotofy && selectedMotofy.id) || 0}
             setEditMode={setEditMode}
             motofy={selectedMotofy!}
+            editMotofy={handleEditMotofy}
           />
         )}
       </Grid.Column>

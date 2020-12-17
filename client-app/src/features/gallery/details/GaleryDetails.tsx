@@ -1,10 +1,6 @@
-import React, { useContext, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { Button, Card, Grid, Icon, Image } from 'semantic-ui-react';
-import LoadingComponent from '../../../app/layout/LoadingComponent';
+import React from 'react';
+import { Button, Card, Image } from 'semantic-ui-react';
 import { IMotofy } from '../../../app/models/motofy';
-import { RootStoreContext } from '../../../app/stores/rootStore';
-import GalleryDetailedInfo from './GalleryDetailedInfo';
 
 interface IProps {
   // motofy: IMotofy;

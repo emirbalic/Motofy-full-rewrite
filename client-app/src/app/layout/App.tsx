@@ -11,7 +11,7 @@ import {
 } from 'react-router-dom';
 import HomePage from '../../features/home/HomePage';
 import ActivityForm from '../../features/activities/form/ActivityForm';
-import GalleryPage from '../../features/gallery/dashboard/GalleryPage';
+// import GalleryPage from '../../features/gallery/dashboard/GalleryPage';
 import GalleryDashboard from '../../features/gallery/dashboard/GalleryDashboard';
 // import ForumPage from '../../features/forum/dashboard/ForumPage';
 import MechanicDashboard from '../../features/mechanics/dashboard/MechanicDashboard';
@@ -38,18 +38,6 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
   const {setAppLoaded, token, appLoaded} = rootStore.commonStore;
   const {getUser} = rootStore.userStore;
-
-  // === temp for forum ===
-  // let forumposts: any [] | undefined = undefined;
-  
-  // useEffect(() => {
-  //   axios.get('http://localhost:5000/api/forumposts').then(response => {
-  //     forumposts = response.data;
-  //     // console.log('forumposts', forumposts);
-  //   })
-  // })
-//forumposts1={forumposts}
-
 
   useEffect (()=> {
     if (token){
@@ -84,7 +72,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 {/* <Route exact path='/gallery' component={GalleryPage} /> */}
                 <Route exact path='/gallery' component={GalleryDashboard} />
                 <Route path='/gallery/:id' component={GaleryDetails} />
-                <Route path='/galleryForm' component={GalleryForm} />
+                <Route path='/galleryForm' key={location.key} component={GalleryForm} />
                 <Route exact path='/forum' component={ForumDashboard} />
                 <Route exact path='/forum/:id' component={ForumDetails} />
                 <Route exact path='/forumform' component={ForumForm} />

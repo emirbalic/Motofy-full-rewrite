@@ -1,33 +1,32 @@
-import React from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
 import { Button, Card, Image, Label } from 'semantic-ui-react';
-import { IForumpost } from '../../../app/models/forumpost';
 
-interface IProps {
-  forumpost: IForumpost;
-  setEditMode: (mode: boolean) => void;
-  setSelectedForum: (forumpost: IForumpost | null) => void;
-}
-const ForumDetails: React.FC<IProps> = ({
-  forumpost,
-  setEditMode,
-  setSelectedForum,
-}) => {
+import ForumPostStore from '../../../app/stores/forumPostStore';
+
+const ForumDetails: React.FC = () => {
+  const forumpostStore = useContext(ForumPostStore);
+  const {
+    selectedForum: forumpost,
+    openEditForm,
+    cancelSelectedForumpost,
+  } = forumpostStore;
+
   return (
     <Card fluid>
-      {/* <Image src={`/assets/placeholder.png`} wrapped ui={false} /> */}
       <Image
-        src={`/assets/forumCategoryImages/${forumpost.category}.jpg`}
+        src={`/assets/forumCategoryImages/${forumpost!.category}.jpg`}
         wrapped
         ui={false}
       />
 
       <Card.Content>
-        <Card.Header>{forumpost.title}</Card.Header>
-        <Label>{forumpost.category}</Label>
+        <Card.Header>{forumpost!.title}</Card.Header>
+        <Label>{forumpost!.category}</Label>
         <Card.Meta>
-          <span>{forumpost.dateAdded}</span>
+          <span>{forumpost!.dateAdded}</span>
         </Card.Meta>
-        <Card.Description>{forumpost.body}</Card.Description>
+        <Card.Description>{forumpost!.body}</Card.Description>
       </Card.Content>
       <Card.Content extra>
         <Button.Group widths={2}>
@@ -35,13 +34,13 @@ const ForumDetails: React.FC<IProps> = ({
             basic
             color='blue'
             content='edit'
-            onClick={() => setEditMode(true)}
+            onClick={() => openEditForm(forumpost!.id)}
           />
           <Button
             basic
             color='grey'
             content='cancel'
-            onClick={() => setSelectedForum(null)}
+            onClick={cancelSelectedForumpost}
           />
         </Button.Group>
       </Card.Content>
@@ -49,4 +48,4 @@ const ForumDetails: React.FC<IProps> = ({
   );
 };
 
-export default ForumDetails;
+export default observer(ForumDetails);

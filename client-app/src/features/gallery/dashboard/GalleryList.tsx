@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
-import { Button, Image, Item, Label, Segment } from 'semantic-ui-react';
+import React from 'react';
+import { Button, Item, Label, Segment } from 'semantic-ui-react';
 
 import { IMotofy } from '../../../app/models/motofy';
 
-import GalleryListItem from './GalleryListItem';
-import { RootStoreContext } from '../../../app/stores/rootStore';
 import { observer } from 'mobx-react-lite';
 
 interface IProps {

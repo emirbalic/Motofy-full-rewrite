@@ -1,27 +1,18 @@
-import React, { SyntheticEvent } from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
-import { IForumpost } from '../../../app/models/forumpost';
+import ForumPostStore  from '../../../app/stores/forumPostStore';
 
-interface IProps {
-  forumposts: IForumpost[];
-  selectForum: (id: string) => void;
-  deleteForumpost: (e: SyntheticEvent<HTMLButtonElement>, id: string) => void;
-  submittting: boolean;
-  target: string;
-}
 
-const ForumList: React.FC<IProps> = ({
-  forumposts,
-  selectForum,
-  deleteForumpost,
-  submittting,
-  target,
-}) => {
-  console.log('forumposts', forumposts);
+const ForumList: React.FC= () => {
+
+  const forumpostStore = useContext(ForumPostStore);
+  const {forumpostsByDate, selectForum, deleteForumpost, submitting, target} = forumpostStore;  
+  
   return (
     <Segment clearing>
       <Item.Group divided>
-        {forumposts.map((forumpost) => (
+        {forumpostsByDate.map((forumpost) => (
           <Item key={forumpost.id}>
             <Item.Content>
               <Item.Header as='a'>{forumpost.title}</Item.Header>
@@ -32,7 +23,7 @@ const ForumList: React.FC<IProps> = ({
               </Item.Description>
 
               <Item.Description>
-                <div>{forumpost.displayName}</div>
+                <div>Just to compare {forumpost.id}</div>
               </Item.Description>
 
               <Item.Extra>
@@ -44,7 +35,7 @@ const ForumList: React.FC<IProps> = ({
                 />
                 <Button
                   name={forumpost.id}
-                  loading={target === forumpost.id && submittting}
+                  loading={target === forumpost.id && submitting}
                   onClick={(e) => deleteForumpost(e, forumpost.id)}
                   floated='right'
                   content='delete'
@@ -60,4 +51,4 @@ const ForumList: React.FC<IProps> = ({
   );
 };
 
-export default ForumList;
+export default observer(ForumList);

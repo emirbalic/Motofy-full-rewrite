@@ -1,15 +1,30 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useContext, useState } from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import { IMotofy } from '../../../app/models/motofy';
+import { v4 as uuid} from 'uuid'; 
+
+import MotofyStore from '../../../app/stores/motofyStore';
+import { observer } from 'mobx-react-lite';
+
 
 interface IProps {
   setEditMode: (editMode: boolean) => void;
   motofy: IMotofy;
+  // createMotofy: (motofy: IMotofy) => void;
+  editMotofy: (motofy: IMotofy) => void;
+  // testMotofy: (motofy: IMotofy) => void;
 }
 const GalleryForm: React.FC<IProps> = ({
   setEditMode,
   motofy: initalFormState,
+  // createMotofy,
+  editMotofy,
+  // testMotofy
 }) => {
+
+  const motofyStore = useContext(MotofyStore);
+  const {createMotofy} = motofyStore;
+
   const initalizeForm = () => {
     if (initalFormState) {
       return initalFormState;
@@ -19,30 +34,48 @@ const GalleryForm: React.FC<IProps> = ({
         name: '',
         brand: '',
         model: '',
-        cubicCentimeters: 0,
+        cubicCentimeters: undefined,
         photoUrl: '',
         description: '',
         yearOfProduction: '',
         datePublished: '',
         city: '',
-        pricePaid: 0,
-        estimatedValue: 0,
-        numberOfKilometers: 0,
+        pricePaid: undefined,
+        estimatedValue: undefined,
+        numberOfKilometers: undefined,
       };
     }
   };
   const [motofy, setMotofy] = useState<IMotofy>(initalizeForm);
 
   const handleSubmit = () => {
-    console.log(motofy)
-}
+    if (motofy.id.length === 0) {
+      let newMotofy = {
+        ...motofy,
+        id: uuid(),
+        datePublished: new Date().toISOString()
+      }
+      // console.log('motofy::::', motofy)
+      // console.log('newMotofy::::', newMotofy)
+   
+      createMotofy(newMotofy);
+      // testMotofy(newMotofy);
+      // editMotofy(motofy)
+    } else {
+      editMotofy(motofy);
+      // console.log('ami edit???')
+      // console.log('motofy id', motofy.id)
+    }
+    // console.log(motofy);
+  };
 
   // == this is to enable input ==
-  const handleInputChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = event.currentTarget;
     setMotofy({ ...motofy, [name]: value });
   };
-
 
   return (
     <Segment clearing>
@@ -53,12 +86,12 @@ const GalleryForm: React.FC<IProps> = ({
           placeholder='Name'
           value={motofy.name}
         />
-        <Form.Input
+        {/* <Form.Input
           onChange={handleInputChange}
           name='brand'
           placeholder='Brand'
           value={motofy.brand}
-        />
+        /> */}
         <Form.Input
           onChange={handleInputChange}
           name='model'
@@ -68,8 +101,16 @@ const GalleryForm: React.FC<IProps> = ({
         <Form.Input
           onChange={handleInputChange}
           name='cubicCentimeters'
+          // type='number'
           placeholder='Cubics'
           value={motofy.cubicCentimeters}
+        />
+         <Form.TextArea
+          onChange={handleInputChange}
+          name='description'
+          raws={3}
+          placeholder='Description'
+          value={motofy.description}
         />
         <Form.Input
           onChange={handleInputChange}
@@ -86,6 +127,12 @@ const GalleryForm: React.FC<IProps> = ({
         />
         <Form.Input
           onChange={handleInputChange}
+          name='city'
+          placeholder='City'
+          value={motofy.city}
+        />
+        <Form.Input
+          onChange={handleInputChange}
           name='pricePaid'
           placeholder='Price paid'
           value={motofy.pricePaid}
@@ -96,14 +143,14 @@ const GalleryForm: React.FC<IProps> = ({
           placeholder='Estimated value'
           value={motofy.estimatedValue}
         />
-        <Form.TextArea
-          onChange={handleInputChange}
-          name='description'
-          raws={3}
-          placeholder='Description'
-          value={motofy.description}
+       
+        <Button
+          // onClick={() => }
+          positive
+          floated='right'
+          type='submit'
+          content='submit'
         />
-        <Button positive floated='right' type='submit' content='submit' />
         <Button
           onClick={() => setEditMode(false)}
           floated='right'
@@ -115,4 +162,4 @@ const GalleryForm: React.FC<IProps> = ({
   );
 };
 
-export default GalleryForm;
+export default observer(GalleryForm);

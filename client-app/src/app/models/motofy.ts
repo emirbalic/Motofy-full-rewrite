@@ -3,7 +3,7 @@ export interface IMotofy {
     name: string;
     brand: string;
     model: string;
-    cubicCentimeters: number;
+    cubicCentimeters?: number;
     photoUrl?: string | null;
     description?: string;
     yearOfProduction?: string;// Date;

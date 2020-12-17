@@ -2,7 +2,6 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import {
-  Button,
   Container,
   Dropdown,
   Image,
@@ -13,18 +12,42 @@ import { RootStoreContext } from '../../app/stores/rootStore';
 
 const NavBar: React.FC = () => {
   const createOptions = [
-    { key: 'Mecanic', text: 'Mecanics Shop', value: 'Mecanic', as: Link, to: '/mechanicForm'},
-    { key: 'Riding', text: 'Riding Route', value: 'Riding', as: Link, to: '/createActivity'},
-    { key: 'Post', text: 'Gallery Post', value: 'Post', as: Link, to: '/galleryForm' },
-    { key: 'Forum', text: 'Forum Post', value: 'Forum', as: Link, to: '/forumform' },
+    {
+      key: 'Mecanic',
+      text: 'Mecanics Shop',
+      value: 'Mecanic',
+      as: Link,
+      to: '/mechanicForm',
+    },
+    {
+      key: 'Riding',
+      text: 'Riding Route',
+      value: 'Riding',
+      as: Link,
+      to: '/createActivity',
+    },
+    {
+      key: 'Post',
+      text: 'Gallery Post',
+      value: 'Post',
+      as: Link,
+      to: '/galleryForm',
+    },
+    {
+      key: 'Forum',
+      text: 'Forum Post',
+      value: 'Forum',
+      as: Link,
+      to: '/forumform',
+    },
   ];
   const rootStore = useContext(RootStoreContext);
+
   const { user, logout } = rootStore.userStore;
   return (
-    <Menu fixed='top'  stackable inverted>
+    <Menu fixed='top' stackable inverted>
       {/* pointing secondary */}
       <Container>
-       
         <Menu.Item as={NavLink} exact to='/'>
           <img
             src='/assets/logo.png'

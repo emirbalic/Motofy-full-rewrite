@@ -4,26 +4,30 @@ using System.Threading.Tasks;
 using Domain;
 using MediatR;
 using Persistence;
-using FluentValidation;
+// using FluentValidation;
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 
-namespace Application.Mechanics
+namespace Application.Motofies
 {
     public class Create
     {
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
             public string Name { get; set; }
-            public string PhotoUrl { get; set; }
+            // public virtual Brand Brand { get; set; } 
+            public string Model { get; set; }
+            public double CubicCentimeters { get; set; }
+            // public string PhotoUrl { get; set; }
             public string Description { get; set; }
-            public DateTime YearOfStart { get; set; }
+            public DateTime YearOfProduction { get; set; }
             public DateTime DatePublished { get; set; }
-            public string Country { get; set; }
             public string City { get; set; }
-            public string Address { get; set; }
+            public double PricePaid { get; set; }
+            public double EstimatedValue { get; set; }
+            public double NumberOfKilometers { get; set; }
+
 
         }
 
@@ -43,25 +47,28 @@ namespace Application.Mechanics
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
+                
                 var user = await _context.Users.SingleOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetCurrentUsername());
 
-                var mechanic = new Mechanic
+                var motofy = new Motofy
                 {
-                    Id = request.Id,
-                    // Author = user,// lets try
+                    
                     Name = request.Name,
-                    // PhotoUrl = request
+                    // Brand = request.Brand,
+                    Model = request.Model,
+                    CubicCentimeters = request.CubicCentimeters,
                     Description = request.Description,
-                    YearOfStart = request.YearOfStart,
-                    DatePublished = DateTime.Now,
-                    Country = request.Country,
+                    YearOfProduction = request.YearOfProduction,
+                    NumberOfKilometers = request.NumberOfKilometers,
                     City = request.City,
-                    Address = request.Address
+                    PricePaid = request.PricePaid,
+                    EstimatedValue = request.EstimatedValue,
+                    DatePublished = request.DatePublished
                     
                 };
 
-                _context.Mechanics.Add(mechanic);
+                _context.Motofies.Add(motofy);
 
                 var success = await _context.SaveChangesAsync() > 0;
 

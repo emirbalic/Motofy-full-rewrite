@@ -21,6 +21,8 @@ namespace Application.Forumposts
             public string Title { get; set; }
             public string Body { get; set; }
             // public string Username { get; set; }
+            public string Category { get; set; }
+
 
         }
 
@@ -50,10 +52,12 @@ namespace Application.Forumposts
 
                 var forumpost = new Forumpost
                 {
-                    Author = user,
+                    // Author = user,
                     Id = request.Id,
                     Title = request.Title,
-                    // DateAdded = DateTime.Now,
+                    // DateAdded = request.
+                    // Category = "testing, no reall? still api...",
+                    Category = request.Category,
                     DateAdded = request.DateAdded,
                     Body = request.Body
                 };

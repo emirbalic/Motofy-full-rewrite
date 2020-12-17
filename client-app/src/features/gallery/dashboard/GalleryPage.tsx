@@ -1,17 +1,17 @@
-import React, { useContext, useEffect } from 'react';
+import React  from 'react';//{ useContext, useEffect }
 import { Grid } from 'semantic-ui-react';
-import { RootStoreContext } from '../../../app/stores/rootStore';
-import GalleryList from './GalleryList';
+// import { RootStoreContext } from '../../../app/stores/rootStore';
+// import GalleryList from './GalleryList';
 import { observer } from 'mobx-react-lite';
 
 const GalleryPage = () => {
 
-  const rootStore = useContext(RootStoreContext);
-  const {loadMotofies} = rootStore.motofyStore; //loadMotofies, motofies
+  // const rootStore = useContext(RootStoreContext);
+  // const {loadMotofies} = rootStore.motofyStore; //loadMotofies, motofies
 
-    useEffect ( () => {
-      loadMotofies()
-    }, [loadMotofies]);
+    // useEffect ( () => {
+    //   loadMotofies()
+    // }, [loadMotofies]);
 
 
   // const [motofies, setMotofies] = useState<IMotofy[]>([]);
@@ -23,16 +23,14 @@ const GalleryPage = () => {
 
   return (
     <Grid>
-      <Grid.Column width={3}>
+      {/* <Grid.Column width={3}>
         <h2 style={{ minHeight: '300px' }}>Left sidebar</h2>
       </Grid.Column>
       <Grid.Column width={10}>
-        {/* <GalleryList /> */}
       </Grid.Column>
       <Grid.Column width={3}>
         <h2 style={{ minHeight: '300px' }}>Right sidebar</h2>
-        {/* {selectedMotofy && <GaleryDetails motofy={selectedMotofy!} />} */}
-      </Grid.Column>
+      </Grid.Column> */}
     </Grid>
   );
 };

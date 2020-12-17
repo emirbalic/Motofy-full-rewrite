@@ -2,26 +2,19 @@ import React, { FormEvent, useContext, useState } from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import { IForumpost } from '../../../app/models/forumpost';
 import { v4 as uuid } from 'uuid';
-import { RootStoreContext } from '../../../app/stores/rootStore';
+import ForumPostStore from '../../../app/stores/forumPostStore';
+import { observer } from 'mobx-react-lite';
 
-// key==65:secondpart
 
 interface IProps {
-  setEditMode: (editMode: boolean) => void;
   forumpost: IForumpost;
-  createForumpost: (forumpost: IForumpost) => void;
-  editForumpost: (forumpost: IForumpost) => void;
-  submittting: boolean;
 }
 const ForumForm: React.FC<IProps> = ({
-  setEditMode,
   forumpost: initialFormState,
-  createForumpost,
-  editForumpost,
-  submittting,
 }) => {
-  const rootStore = useContext(RootStoreContext);
-  const { user, logout } = rootStore.userStore;
+  const forumPostStore = useContext(ForumPostStore);
+  const { createForumpost, editForumpost, submitting, cancelFormOpen } = forumPostStore;
+
 
   const initializeForm = () => {
     if (initialFormState) {
@@ -32,8 +25,8 @@ const ForumForm: React.FC<IProps> = ({
         title: '',
         category: '',
         body: '',
-        dateAdded: '',
-        displayName: '',
+        dateAdded: ''//Date.now().toString(),
+        // displayName: '',
       };
     }
   };
@@ -41,28 +34,15 @@ const ForumForm: React.FC<IProps> = ({
   const [forumpost, setForumpost] = useState<IForumpost>(initializeForm);
 
   const handleSubmit = () => {
-    // console.log('newForumpost about to');
     if (forumpost.id.length === 0) {
+      let dateToSend = new Date();
       let newForumpost = {
-        title: forumpost.title,
-        body: forumpost.body,
-        category: forumpost.category,
+        ...forumpost,
         id: uuid(),
-        displayName: user!.displayName,
-        // dateAdded: Date.now().toISOString(),
-        dateAdded: Date.now().toString(),
-        // dateAdded: "2020-11-01T16:09:31",
-        authorId: 'a',
-
-        // ili
-        // ...forumpost,
-        // id: uuid(),
-        // displayName: user!.displayName,
-        // dateAdded: Date.now().toString(),
+        dateAdded: dateToSend.toISOString()
       };
-
       createForumpost(newForumpost);
-    } else if (forumpost.id.length > 0) {
+    } else {
       editForumpost(forumpost);
     }
   };
@@ -96,7 +76,7 @@ const ForumForm: React.FC<IProps> = ({
           value={forumpost.category}
         />
         <Button
-          loading={submittting}
+          loading={submitting}
           floated='right'
           positive
           type='submit'
@@ -106,11 +86,11 @@ const ForumForm: React.FC<IProps> = ({
           floated='right'
           type='butoon'
           content='cancel'
-          onClick={() => setEditMode(false)}
+          onClick={cancelFormOpen}
         />
       </Form>
     </Segment>
   );
 };
 
-export default ForumForm;
+export default observer(ForumForm);

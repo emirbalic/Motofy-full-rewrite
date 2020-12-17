@@ -1,52 +1,34 @@
-import { RootStore } from './rootStore';
+// import { RootStore } from './rootStore';
 import { observable, action, runInAction } from 'mobx';
 import { IMotofy } from '../models/motofy';
 import agent from '../api/agent';
+import { createContext } from 'react';
 
-export default class motofyStore {
-  rootStore: RootStore;
-  constructor(rootStore: RootStore) {
-    this.rootStore = rootStore;
-  }
+class MotofyStore {
+  // rootStore: RootStore;
+  // constructor(rootStore: RootStore) {
+  //   this.rootStore = rootStore;
+  // }
 
   @observable motofyRegistry = new Map();
 
   @observable motofy: IMotofy | undefined;
   @observable motofies: IMotofy[] = [];
 
+  @observable editMode = false;
+
 
   @observable loadingInitial = false;
+  @observable submitting = false;
 
-  //   @computed get motofiesByDate() {
-  //     return this.groupMotofiesByDate(Array.from(this.motofyRegistry.values()));
-  //   }
-  //   groupMotofiesByDate(motofies: IMotofy[]) {
-  //     const sortedMotofies = motofies.sort(
-  //         // (a, b) => a.datePublished?.getTime() - b.datePublished?.getTime()
-  //     )
-  //   }
 
-  // @action loadMotofies = async () => {
-  //   this.loadingInitial = true;
-  //   agent.Motofies.list()
-  //     .then(motofies => {
-  //       motofies.forEach((motofy) => {
-  //         this.motofies.push(motofy);
-  //         console.log('xxxxxxx')
-  //       })
-  //     });
-  //     //finally(() => this.loadingInitial = false)
-  // };
 
   @action loadMotofies = async () => {
     this.loadingInitial = true;
 
     try {
       const motofies = await agent.Motofies.list();
-      // motofies.forEach(motofy => {
-      //   // motofy.datePublished = motofy.datePublished.split('.')[0];
-      //   this.motofyRegistry.set(motofy.id, motofy);
-      // })
+     
       runInAction('loading mototofies', () => {
         this.loadingInitial = false;
         this.motofies = motofies; 
@@ -60,9 +42,26 @@ export default class motofyStore {
     }
   };
 
+  @action createMotofy = async (motofy: IMotofy)=>{
+    this.submitting = true;
+    try {
+      await agent.Motofies.create(motofy);
+      this.motofies.push(motofy);
+      this.editMode = false;
+    } catch (error) {
+      this.submitting = false;
+      console.log(error);
+    }
+  }
+
+  @action openCreateForm = () => {
+    this.editMode = true;
+    this.motofy = undefined
+  }
+
   @action loadMotofy = async (id: string) => {
     let motofy = this.getMotofy(id);
-    console.log(motofy);
+    // console.log(motofy);
     if (motofy) {
       this.motofy = motofy;
     } else {
@@ -87,3 +86,6 @@ export default class motofyStore {
     return this.motofies.find((x) => x.id === id);
   };
 }
+
+export default createContext(new MotofyStore());
+

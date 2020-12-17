@@ -89,16 +89,14 @@ const Forumposts = {
   delete: (id: string) => requests.delete(`/forumposts/${id}`),
 }
 
-
-
 const Mechanics = {
   list: (): Promise<IMechanic[]> => requests.get('mechanics'),
-  // details: (id: string) => requests.get(`/motofies/${id}`),
+  details: (id: string) => requests.get(`/mechanics/${id}`),
   // // TODO: 
-  // create: (motofy: IMotofy) => requests.post('/motofies', motofy),
-  // update: (motofy: IMotofy) =>
-  //   requests.put(`/motofies/${motofy.id}`, motofy),
-  // delete: (id: string) => requests.delete(`/motofies/${id}`),
+  create: (mechanic: IMechanic) => requests.post('/mechanics', mechanic),
+  update: (mechanic: IMechanic) =>
+    requests.put(`/mechanics/${mechanic.id}`, mechanic),
+  delete: (id: string) => requests.delete(`/mechanics/${id}`),
 };
 
 const Motofies = {

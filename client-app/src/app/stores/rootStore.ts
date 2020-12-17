@@ -1,14 +1,13 @@
-import { configure } from 'mobx';
+// import { configure } from 'mobx';
 import { createContext } from 'react';
 import ActivityStore from './activityStore';
 import CommonStore from './commonStore';
 import ModalStore from './modalStore';
-import MotofyStore from './motofyStore';
 import ProfileStore from './profileStore';
 import UserStore from './userStore';
 
 // === mobx === //
-configure({ enforceActions: 'always' });
+// configure({ enforceActions: 'always' });
 
 
 export class RootStore {
@@ -19,7 +18,7 @@ export class RootStore {
     profileStore: ProfileStore;
 
     //me:
-    motofyStore: MotofyStore
+    // motofyStore: MotofyStore
 
     constructor () {
         this.activityStore = new ActivityStore(this);
@@ -29,7 +28,7 @@ export class RootStore {
         this.profileStore = new ProfileStore(this);
 
         // me:
-        this.motofyStore = new MotofyStore(this);
+        // this.motofyStore = new MotofyStore(this);
     }
 }
 

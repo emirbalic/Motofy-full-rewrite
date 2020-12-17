@@ -14,7 +14,7 @@ namespace Application.Mechanics
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-            // public string Name { get; set; }
+            public string Name { get; set; }
             // public string PhotoUrl { get; set; }
             public string Description { get; set; }
             public string Country { get; set; }
@@ -52,6 +52,7 @@ namespace Application.Mechanics
                     throw new RestException(HttpStatusCode.NotFound,
                         new { activity = "NotFound" });
 
+                mechanic.Name = request.Name ?? mechanic.Name;
                 mechanic.Description = request.Description ?? mechanic.Description;
                 mechanic.Country = request.Country ?? mechanic.Country;
                 mechanic.City = request.City ?? mechanic.City;

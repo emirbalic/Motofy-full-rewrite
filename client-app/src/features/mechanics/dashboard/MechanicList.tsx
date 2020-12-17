@@ -1,20 +1,22 @@
-import React from 'react';
-import { Button, Image, Item, Label, Segment } from 'semantic-ui-react';
-import { IMechanic } from '../../../app/models/mechanic';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+import { Button, Item, Label, Segment } from 'semantic-ui-react';
+import MechanicStore from '../../../app/stores/mechanicStore';
 
-interface IProps {
-  mechanics: IMechanic[];
-  selectMechanic: (id: string) => void;
-  handleDeleteMechanic: (id:string)=> void; 
-}
-const MechanicList: React.FC<IProps> = ({ mechanics, selectMechanic, handleDeleteMechanic }) => {
+const MechanicList: React.FC = () => {
+  const mechanicStore = useContext(MechanicStore);
+  const {
+    mechanicsByDate,
+    selectMechanic,
+    deleteMechanic,
+    submitting,
+    target,
+  } = mechanicStore;
   return (
     <Segment clearing>
       <Item.Group divided>
-        {mechanics.map((mechanic) => (
+        {mechanicsByDate.map((mechanic) => (
           <Item key={mechanic.id}>
-            {/* <Item.Image size='tiny' src='/images/wireframe/image.png' /> */}
-
             <Item.Content>
               <Item.Header as='a'>{mechanic.name}</Item.Header>
               <Item.Meta>{mechanic.yearOfStart}</Item.Meta>
@@ -32,7 +34,8 @@ const MechanicList: React.FC<IProps> = ({ mechanics, selectMechanic, handleDelet
                   color='blue'
                 ></Button>
                 <Button
-                  onClick={() => handleDeleteMechanic(mechanic.id)}
+                  loading={target === mechanic.id && submitting}
+                  onClick={(e) => deleteMechanic(e, mechanic.id)}
                   floated='right'
                   content='Delete'
                   color='red'
@@ -47,4 +50,4 @@ const MechanicList: React.FC<IProps> = ({ mechanics, selectMechanic, handleDelet
   );
 };
 
-export default MechanicList;
+export default observer(MechanicList);

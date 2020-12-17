@@ -1,11 +1,11 @@
 export interface IMechanic {
     id: string;
-    author: string | null;
+    // author: string | null;
     photoUrl: string | null;
     name: string;
-    description?: string;
+    description: string;
     yearOfStart: string;//Date;
-    datePublished?: string;// Date | undefined;
+    datePublished: string;// Date | undefined;
     country: string;
     city: string;
     address: string;
