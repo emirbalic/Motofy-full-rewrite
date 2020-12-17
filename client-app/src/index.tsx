@@ -14,13 +14,11 @@ dateFnsLocalizer();
 
 export const history = createBrowserHistory();
 ReactDOM.render(
-  // <React.StrictMode>
   <Router history={history}>
     <ScrollToTop>
       <App />
     </ScrollToTop>
   </Router>,
-  // </React.StrictMode>,
   document.getElementById('root')
 );
 

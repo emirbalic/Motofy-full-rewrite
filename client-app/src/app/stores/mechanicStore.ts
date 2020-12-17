@@ -9,7 +9,7 @@ class MechanicStore {
   @observable mechanicRegistry = new Map();
 
   @observable mechanics: IMechanic[] = [];
-  @observable selectedMechanic: IMechanic | undefined;
+  @observable mechanic: IMechanic | null = null;
   @observable loadingInitial = false;
   @observable editMode = false;
   @observable submitting = false;
@@ -25,7 +25,7 @@ class MechanicStore {
     );
   }
 
-  @action loadMechanic = async () => {
+  @action loadMechanics = async () => {
     this.loadingInitial = true;
     try {
       const mechanics = await agent.Mechanics.list();
@@ -43,6 +43,35 @@ class MechanicStore {
       });
       console.log(error);
     }
+  };
+
+  @action loadMechanic = async (id: string) => {
+    let mechanic = this.getMechanic(id);
+    if (mechanic) {
+      this.mechanic = mechanic;
+    } else {
+      this.loadingInitial = true;
+      try {
+        mechanic = await agent.Mechanics.details(id);
+        runInAction('getting mechanic', () => {
+          this.mechanic = mechanic;
+          this.loadingInitial = false;
+        });
+      } catch (error) {
+        runInAction('get mechanic error', () => {
+          this.loadingInitial = false;
+        });
+        console.log(error);
+      }
+    }
+  };
+
+  @action clearMechanic = () => {
+    this.mechanic = null;
+  }
+
+  getMechanic = (id: string) => {
+    return this.mechanicRegistry.get(id);
   };
 
   @action createMechanic = async (mechanic: IMechanic) => {
@@ -65,11 +94,11 @@ class MechanicStore {
   @action editMechanic = async (mechanic: IMechanic) => {
     this.submitting = true;
     try {
-      console.log('mechanic', mechanic);
+      // console.log('mechanic', mechanic);
       await agent.Mechanics.update(mechanic);
       runInAction('creating mechanic', () => {
         this.mechanicRegistry.set(mechanic.id, mechanic);
-        this.selectedMechanic = mechanic;
+        this.mechanic = mechanic;
         this.editMode = false;
         this.submitting = false;
       });
@@ -105,16 +134,15 @@ class MechanicStore {
 
   @action openCreateForm = () => {
     this.editMode = true;
-    this.selectedMechanic = undefined;
+    this.mechanic = null;
   };
   @action openEditForm = (id: string) => {
-    this.selectedMechanic = this.mechanicRegistry.get(id);
-    console.log(this.selectedMechanic?.yearOfStart);
+    this.mechanic = this.mechanicRegistry.get(id);
+    // console.log(this.mechanic?.yearOfStart);
     this.editMode = true;
   };
   @action cancelSelectedMechanic = () => {
-    // console.log('i coanaldkaj ')
-    this.selectedMechanic = undefined;
+    this.mechanic = null;
   };
   @action cancelFormOpen = () => {
     this.editMode = false;
@@ -123,7 +151,7 @@ class MechanicStore {
 
   @action selectMechanic = (id: string) => {
     // this.selectedMechanic = this.mechanics.find(m => m.id === id); // === refactor for map
-    this.selectedMechanic = this.mechanicRegistry.get(id);
+    this.mechanic = this.mechanicRegistry.get(id);
     this.editMode = false;
   };
 }

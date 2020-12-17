@@ -8,7 +8,7 @@ configure({ enforceActions: 'always' });
 class ForumPostStore {
   @observable forumPostRegistry = new Map();
   @observable forumposts: IForumpost[] = [];
-  @observable selectedForum: IForumpost | undefined;
+  @observable forumpost: IForumpost | null = null;
   @observable loadingInitial = false;
   @observable editMode = false;
   @observable submitting = false;
@@ -50,6 +50,35 @@ class ForumPostStore {
   //     }).finally(() => (this.loadingInitial = false));
   // };
 
+  @action loadForumPost = async (id: string) => {
+    let forumPost = this.getForumPost(id);
+    if (forumPost) {
+      this.forumpost = forumPost;
+    } else {
+      this.loadingInitial = true;
+      try {
+        forumPost = await agent.Forumposts.details(id);
+        runInAction('getting forumpost', () => {
+          this.forumpost = forumPost;
+          this.loadingInitial = false;
+        });
+      } catch (error) {
+        runInAction('get forumpost error', () => {
+          this.loadingInitial = false;
+        });
+        console.log(error);
+      }
+    }
+  };
+
+  @action clearForumPost = () => {
+    this.forumpost = null;
+  }
+
+  getForumPost = (id: string) => {
+    return this.forumPostRegistry.get(id);
+  };
+
   @action createForumpost = async (forumpost: IForumpost) => {
     this.submitting = true;
     try {
@@ -72,7 +101,7 @@ class ForumPostStore {
       await agent.Forumposts.update(forumpost);
       runInAction('editing forumpost', () => {
         this.forumPostRegistry.set(forumpost.id, forumpost);
-        this.selectedForum = forumpost;
+        this.forumpost = forumpost;
         this.editMode = false;
         this.submitting = false;
       });
@@ -108,16 +137,16 @@ class ForumPostStore {
 
   @action openCreateForm = () => {
     this.editMode = true;
-    this.selectedForum = undefined;
+    this.forumpost = null;
   };
 
   @action openEditForm = (id: string) => {
-    this.selectedForum = this.forumPostRegistry.get(id);
+    this.forumpost = this.forumPostRegistry.get(id);
     this.editMode = true;
   };
 
   @action cancelSelectedForumpost = () => {
-    this.selectedForum = undefined;
+    this.forumpost = null;
   };
 
   @action cancelFormOpen = () => {
@@ -126,7 +155,7 @@ class ForumPostStore {
   };
 
   @action selectForum = (id: string) => {
-    this.selectedForum = this.forumPostRegistry.get(id);
+    this.forumpost = this.forumPostRegistry.get(id);
     this.editMode = false;
   };
 }

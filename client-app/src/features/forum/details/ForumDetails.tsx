@@ -1,16 +1,26 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Card, Image, Label } from 'semantic-ui-react';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 import ForumPostStore from '../../../app/stores/forumPostStore';
 
-const ForumDetails: React.FC = () => {
+interface DetailParams {
+  id: string
+}
+const ForumDetails: React.FC<RouteComponentProps<DetailParams>> = ({match, history}) => {
   const forumpostStore = useContext(ForumPostStore);
   const {
-    selectedForum: forumpost,
-    openEditForm,
-    cancelSelectedForumpost,
+    forumpost,
+    loadForumPost,
+    loadingInitial
   } = forumpostStore;
+
+  useEffect(()=> {
+    loadForumPost(match.params.id)
+  }, [loadForumPost, match.params.id])
+  if (loadingInitial || !forumpost) return <LoadingComponent content="Loading forum post details..."/> 
 
   return (
     <Card fluid>
@@ -34,13 +44,13 @@ const ForumDetails: React.FC = () => {
             basic
             color='blue'
             content='edit'
-            onClick={() => openEditForm(forumpost!.id)}
+            as={Link} to={`/manageForum/${forumpost.id}`}
           />
           <Button
             basic
             color='grey'
             content='cancel'
-            onClick={cancelSelectedForumpost}
+            onClick={()=> history.push('/forum')}
           />
         </Button.Group>
       </Card.Content>

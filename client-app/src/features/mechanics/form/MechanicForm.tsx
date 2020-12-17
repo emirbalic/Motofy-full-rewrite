@@ -1,18 +1,22 @@
 import { observer } from 'mobx-react-lite';
-import React, { FormEvent, useContext, useState } from 'react';
+import React, { FormEvent, useContext, useEffect, useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
 
 import { IMechanic } from '../../../app/models/mechanic';
 import MechanicStore from '../../../app/stores/mechanicStore';
 
-interface IProps {
-  // setEditMode: (editMode: boolean) => void;
-  mechanic: IMechanic;
+// interface IProps {
+//   // setEditMode: (editMode: boolean) => void;
+//   mechanic: IMechanic;
+// }
+interface DetailParams {
+  id: string;
 }
-const MechanicForm: React.FC<IProps> = ({
-  // setEditMode,
-  mechanic: initalFormState,
+const MechanicForm: React.FC<RouteComponentProps<DetailParams>> = ({
+  history,
+  match
 }) => {
   const mechanicStore = useContext(MechanicStore);
   const {
@@ -21,41 +25,65 @@ const MechanicForm: React.FC<IProps> = ({
     submitting,
     editMode,
     cancelFormOpen,
+    mechanic: initalFormState,
+    loadMechanic,
+    clearMechanic
   } = mechanicStore;
 
-  const initalizeForm = () => {
-    if (initalFormState) {
-      return initalFormState;
-    } else {
-      return {
-        id: '',
-        // author: '', // add author in API
-        photoUrl: '',
-        name: '',
-        description: '',
-        yearOfStart: '',
-        datePublished: '',
-        country: '',
-        city: '',
-        address: '',
-      };
-    }
-  };
+  // const initalizeForm = () => {
+  //   if (initalFormState) {
+  //     return initalFormState;
+  //   } else {
+  //     return {
+  //       id: '',
+  //       // author: '', // add author in API
+  //       photoUrl: '',
+  //       name: '',
+  //       description: '',
+  //       yearOfStart: '',
+  //       datePublished: '',
+  //       country: '',
+  //       city: '',
+  //       address: '',
+  //     };
+  //   }
+  // };
 
-  const [mechanic, setMechanic] = useState<IMechanic>(initalizeForm);
+  const [mechanic, setMechanic] = useState<IMechanic>({
+    id: '',
+    photoUrl: '',
+    name: '',
+    description: '',
+    yearOfStart: '',
+    datePublished: '',
+    country: '',
+    city: '',
+    address: '',
+  });
+
+
+  useEffect(()=> {
+    if(match.params.id && mechanic.id.length === 0) {
+      loadMechanic(match.params.id).then(()=> {
+        initalFormState && setMechanic(initalFormState);
+      });
+    }
+    return () => {
+      clearMechanic();
+    }
+  }, [loadMechanic, clearMechanic, match.params.id, initalFormState, mechanic.id.length]);
+
 
   const handleSubmit = () => {
-    // let dateToSend = new Date();
     if (mechanic.id.length === 0) {
       let newMechanic = {
         ...mechanic,
         id: uuid(),
         datePublished: new Date().toISOString(),
       };
-      createMechanic(newMechanic);
+      createMechanic(newMechanic).then(() => history.push(`/mechanics/${newMechanic.id}`));
     } else {
-      editMechanic(mechanic);
-      // console.log('MECHANIC!!!', mechanic);
+      editMechanic(mechanic).then(() => history.push(`/mechanics/${mechanic.id}`));
     }
   };
 

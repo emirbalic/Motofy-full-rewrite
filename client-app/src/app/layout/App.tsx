@@ -19,7 +19,7 @@ import ActivityDetails from '../../features/activities/details/ActivityDetails';
 import MerchantDashboard from '../../features/shop/dashboard/MerchantDashboard';
 import MerchantDetails from '../../features/shop/details/MerchantDetails';
 import NotFound from './NotFound';
-import {ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import LoginForm from '../../features/user/LoginForm';
 import { RootStoreContext } from '../stores/rootStore';
 import LoadingComponent from './LoadingComponent';
@@ -34,26 +34,23 @@ import MechanicForm from '../../features/mechanics/form/MechanicForm';
 import GalleryForm from '../../features/gallery/form/GalleryForm';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
-
   const rootStore = useContext(RootStoreContext);
-  const {setAppLoaded, token, appLoaded} = rootStore.commonStore;
-  const {getUser} = rootStore.userStore;
+  const { setAppLoaded, token, appLoaded } = rootStore.commonStore;
+  const { getUser } = rootStore.userStore;
 
-  useEffect (()=> {
-    if (token){
-      
+  useEffect(() => {
+    if (token) {
       getUser().finally(() => setAppLoaded());
     } else {
       setAppLoaded();
     }
-  }, [getUser, setAppLoaded, token])
+  }, [getUser, setAppLoaded, token]);
 
-
-  if(!appLoaded) return <LoadingComponent content={'Loading app...'}/>
+  if (!appLoaded) return <LoadingComponent content={'Loading app...'} />;
   return (
     <Fragment>
-      <ModalContainer/>
-      <ToastContainer position='top-right'/>
+      <ModalContainer />
+      <ToastContainer position='top-right' />
       <Route exact path='/' component={HomePage} />
       <Route
         path={'/(.+)'}
@@ -72,14 +69,26 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 {/* <Route exact path='/gallery' component={GalleryPage} /> */}
                 <Route exact path='/gallery' component={GalleryDashboard} />
                 <Route path='/gallery/:id' component={GaleryDetails} />
-                <Route path='/galleryForm' key={location.key} component={GalleryForm} />
+                <Route
+                  path='/galleryForm'
+                  key={location.key}
+                  component={GalleryForm}
+                />
                 <Route exact path='/forum' component={ForumDashboard} />
                 <Route exact path='/forum/:id' component={ForumDetails} />
-                <Route exact path='/forumform' component={ForumForm} />
+                <Route
+                  key={location.key}
+                  path={['/forumform', '/manageForum/:id']}
+                  component={ForumForm}
+                />
                 {/* <Route path='/forum/:id' component={ForumPage} /> */}
-                <Route path='/mechanics' component={MechanicDashboard} />
+                <Route exact path='/mechanics' component={MechanicDashboard} />
                 <Route path='/mechanics/:id' component={MechanicDetails} />
-                <Route path='/mechanicForm' component={MechanicForm} />
+                <Route
+                  key={location.key}
+                  path={['/mechanicForm', '/manageMechanic/:id']}
+                  component={MechanicForm}
+                />
                 {/* <Route path='/mechanics/:id' component={MechanicsPage} /> */}
                 <Route path='/merchant' component={MerchantDashboard} />
                 <Route path='/merchant/:id' component={MerchantDetails} />

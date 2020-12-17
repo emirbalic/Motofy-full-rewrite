@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import MechanicStore from '../../../app/stores/mechanicStore';
 
@@ -7,7 +8,7 @@ const MechanicList: React.FC = () => {
   const mechanicStore = useContext(MechanicStore);
   const {
     mechanicsByDate,
-    selectMechanic,
+    // selectMechanic,
     deleteMechanic,
     submitting,
     target,
@@ -28,7 +29,8 @@ const MechanicList: React.FC = () => {
               </Item.Description>
               <Item.Extra>
                 <Button
-                  onClick={() => selectMechanic(mechanic.id)}
+                  // onClick={() => selectMechanic(mechanic.id)}
+                  as={Link} to={`/mechanics/${mechanic.id}`}
                   floated='right'
                   content='View'
                   color='blue'

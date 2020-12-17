@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import ForumPostStore  from '../../../app/stores/forumPostStore';
 
@@ -7,7 +8,7 @@ import ForumPostStore  from '../../../app/stores/forumPostStore';
 const ForumList: React.FC= () => {
 
   const forumpostStore = useContext(ForumPostStore);
-  const {forumpostsByDate, selectForum, deleteForumpost, submitting, target} = forumpostStore;  
+  const {forumpostsByDate, deleteForumpost, submitting, target} = forumpostStore;   //selectForum,
   
   return (
     <Segment clearing>
@@ -28,7 +29,7 @@ const ForumList: React.FC= () => {
 
               <Item.Extra>
                 <Button
-                  onClick={() => selectForum(forumpost.id)}
+                  as={Link} to={`/forum/${forumpost.id}`}
                   floated='right'
                   content='view'
                   color='blue'

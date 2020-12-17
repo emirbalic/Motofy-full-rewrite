@@ -1,15 +1,26 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Card, Image } from 'semantic-ui-react';
- import MechanicStore from '../../../app/stores/mechanicStore';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
+import MechanicStore from '../../../app/stores/mechanicStore';
 
-const MechanicDetails: React.FC = () => {
+interface DetailParams {
+  id: string
+}
+const MechanicDetails: React.FC<RouteComponentProps<DetailParams>> = ({match, history}) => {
   const mechanicStore = useContext(MechanicStore);
   const {
-    selectedMechanic: mechanic,
-    openEditForm,
-    cancelSelectedMechanic,
+    mechanic,
+    loadMechanic,
+    loadingInitial
   } = mechanicStore;
+
+  useEffect(() => {
+    loadMechanic(match.params.id)
+  }, [loadMechanic, match.params.id])
+
+  if (loadingInitial || !mechanic) return <LoadingComponent content='Loading mechanic shop...'/>
 
   return (
     <Card fluid>
@@ -24,13 +35,13 @@ const MechanicDetails: React.FC = () => {
       <Card.Content extra>
         <Button.Group widths={2}>
           <Button
-            onClick={() => openEditForm(mechanic!.id)}
+            as={Link} to={`/manageMechanic/${mechanic.id}`}
             basic
             color='blue'
             content='edit'
           />
           <Button
-            onClick={cancelSelectedMechanic}
+            onClick={()=> history.push('/mechanics')}
             basic
             color='grey'
             content='cancel'
